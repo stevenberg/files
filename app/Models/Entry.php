@@ -14,6 +14,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * @property Folder $folder
+ */
 class Entry extends Model
 {
     use HasFactory, SoftDeletes;

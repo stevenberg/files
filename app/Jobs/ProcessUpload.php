@@ -29,11 +29,13 @@ class ProcessUpload implements ShouldQueue
 
         $path = Storage::putFile($this->folder->filesPath, $file);
 
-        $this->folder->entries()->create([
+        $entry = $this->folder->entries()->create([
             'name' => $name,
             'path' => $path,
         ]);
 
         Storage::delete($this->path);
+
+        CreateThumbnail::dispatch($entry);
     }
 }
