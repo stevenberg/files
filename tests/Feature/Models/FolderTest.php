@@ -17,6 +17,7 @@ class FolderTest extends TestCase
     {
         parent::setUp();
         Storage::fake();
+        Storage::fake('public');
     }
 
     public function test_fillable_attributes(): void
@@ -142,6 +143,18 @@ class FolderTest extends TestCase
         $this->assertSame('files/parent/child', $child->filesPath);
     }
 
+    public function test_thumbnails_path(): void
+    {
+        $parent = Folder::factory()->create([
+            'path_key' => 'parent',
+        ]);
+        $child = Folder::factory()->for($parent)->create([
+            'path_key' => 'child',
+        ]);
+
+        $this->assertSame('thumbnails/parent/child', $child->thumbnailsPath);
+    }
+
     public function test_implicitly_delete(): void
     {
         $folder = Folder::factory()->create();
@@ -206,6 +219,7 @@ class FolderTest extends TestCase
 
         Storage::assertExists('uploads/test-folder');
         Storage::assertExists('files/test-folder');
+        Storage::assertExists('thumbnails/test-folder');
     }
 
     public function test_soft_deletion(): void
@@ -233,6 +247,7 @@ class FolderTest extends TestCase
         $this->assertSoftDeleted($deletedEntry);
         Storage::assertMissing('uploads/test-folder');
         Storage::assertExists('files/test-folder');
+        Storage::assertExists('thumbnails/test-folder');
 
         $parent->restore();
 
@@ -243,6 +258,7 @@ class FolderTest extends TestCase
         $this->assertSoftDeleted($deletedEntry);
         Storage::assertExists('uploads/test-folder');
         Storage::assertExists('files/test-folder');
+        Storage::assertExists('thumbnails/test-folder');
     }
 
     public function test_force_deletion(): void
@@ -259,5 +275,6 @@ class FolderTest extends TestCase
         $this->assertModelMissing($entry);
         Storage::assertMissing('uploads/test-folder');
         Storage::assertMissing('files/test-folder');
+        Storage::assertMissing('thumbnails/test-folder');
     }
 }

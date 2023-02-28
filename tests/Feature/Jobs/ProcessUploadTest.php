@@ -15,6 +15,7 @@ class ProcessUploadTest extends TestCase
     {
         parent::setUp();
         Storage::fake();
+        Storage::fake('public');
     }
 
     public function test_job(): void

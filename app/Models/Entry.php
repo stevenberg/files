@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -32,6 +33,12 @@ class Entry extends Model
     public function folder(): BelongsTo
     {
         return $this->belongsTo(Folder::class);
+    }
+
+    /** @return HasOne<Thumbnail> */
+    public function thumbnail(): HasOne
+    {
+        return $this->hasOne(Thumbnail::class)->withDefault();
     }
 
     /**
@@ -71,6 +78,14 @@ class Entry extends Model
             if (blank($entry->url_key)) {
                 $entry->url_key = Str::slug($entry->name);
             }
+        });
+
+        static::deleted(function (Entry $entry) {
+            optional($entry->thumbnail)->delete();
+        });
+
+        static::restored(function (Entry $entry) {
+            optional($entry->thumbnail()->onlyTrashed()->first())->restore();
         });
 
         static::forceDeleted(function (Entry $entry) {

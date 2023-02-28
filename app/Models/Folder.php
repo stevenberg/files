@@ -91,6 +91,13 @@ class Folder extends Model
         return "files/{$path}";
     }
 
+    public function getThumbnailsPathAttribute(): string
+    {
+        $path = $this->ancestors->push($this)->map->path_key->join('/');
+
+        return "thumbnails/{$path}";
+    }
+
     public function getRouteKeyName(): string
     {
         return 'url_key';
@@ -122,6 +129,7 @@ class Folder extends Model
         static::created(function (Folder $folder) {
             Storage::makeDirectory($folder->uploadsPath);
             Storage::makeDirectory($folder->filesPath);
+            Storage::makeDirectory($folder->thumbnailsPath);
         });
 
         static::deleted(function (Folder $folder) {
@@ -139,6 +147,7 @@ class Folder extends Model
         static::forceDeleted(function (Folder $folder) {
             Storage::deleteDirectory($folder->uploadsPath);
             Storage::deleteDirectory($folder->filesPath);
+            Storage::deleteDirectory($folder->thumbnailsPath);
         });
     }
 }

@@ -6,6 +6,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\Entry;
 use App\Models\Folder;
+use App\Models\Thumbnail;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +18,7 @@ class EntryTest extends TestCase
     {
         parent::setUp();
         Storage::fake();
+        Storage::fake('public');
     }
 
     public function test_fillable_attributes(): void
@@ -46,6 +48,24 @@ class EntryTest extends TestCase
         $entry->folder()->associate($folder);
 
         $this->assertTrue($entry->folder->is($folder));
+    }
+
+    public function test_thumbnail_relationship(): void
+    {
+        $entry = Entry::factory()->forFolder()->create();
+        $thumbnail = Thumbnail::factory()->make();
+
+        $entry->thumbnail()->save($thumbnail);
+
+        $this->assertTrue($entry->thumbnail->is($thumbnail));
+    }
+
+    public function test_default_thumbnail(): void
+    {
+        $entry = Entry::factory()->forFolder()->create();
+
+        $this->assertInstanceOf(Thumbnail::class, $entry->thumbnail);
+        $this->assertFalse($entry->thumbnail->exists);
     }
 
     public function test_implicitly_deleted_scope(): void
@@ -135,16 +155,32 @@ class EntryTest extends TestCase
         $this->assertSame('test-entry', $entry->url_key);
     }
 
-    public function test_deletes_path_on_force_deleted(): void
+    public function test_soft_deletion(): void
     {
         $entry = Entry::factory()->forFolder()->create([
             'name' => 'Test Entry',
         ]);
+        $thumbnail = Thumbnail::factory()->for($entry)->create();
+
+        $entry->delete();
+
+        $this->assertSoftDeleted($thumbnail);
+
+        $entry->restore();
+
+        $this->assertNotSoftDeleted($thumbnail);
+    }
+
+    public function test_force_deletion(): void
+    {
+        $entry = Entry::factory()->forFolder()->create();
+        $thumbnail = Thumbnail::factory()->for($entry)->create();
 
         Storage::assertExists($entry->path);
 
         $entry->forceDelete();
 
+        $this->assertModelMissing($thumbnail);
         Storage::assertMissing($entry->path);
     }
 }
