@@ -1,0 +1,21 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.stack > * {
+  margin-block: 0;
+}
+
+.stack > * + * {
+  margin-block-start: var(--space-m);
+}
+
+.stack > * + .stack-small {
+  margin-block-start: var(--space-3xs);
+}
+
+.stack > * + .stack-large {
+  margin-block-start: var(--space-xl);
+}

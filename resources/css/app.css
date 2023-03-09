@@ -1,2 +1,102 @@
 @import url("~fortawesome/css/svg-with-js.css");
 @import url("reset.css");
+@import url("variables.css");
+@import url("utilities.css");
+@import url("components/center.css");
+@import url("components/cluster.css");
+@import url("components/stack.css");
+
+body {
+  --color-text: var(--color-black);
+  --color-background: var(--color-white);
+  --color-highlight: var(--color-blue);
+  --color-border: var(--color-silver);
+
+  padding: var(--space-m);
+
+  font-family: system-ui;
+  font-size: var(--step-0);
+  line-height: 1.5;
+  color: var(--color-text);
+
+  background-color: var(--color-background);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --color-text: var(--color-white);
+    --color-background: var(--color-black);
+    --color-border: var(--color-gray);
+  }
+}
+
+a:link,
+a:visited {
+  color: var(--color-text);
+  text-decoration-color: var(--color-highlight);
+  text-decoration-thickness: 2px;
+}
+
+a:hover,
+a:active {
+  color: var(--color-highlight);
+}
+
+main {
+  flex-grow: 1;
+}
+
+h1 {
+  font-size: var(--step-3);
+  line-height: 1;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs > li + li::before {
+  content: "/";
+}
+
+.breadcrumbs + h1::before {
+  content: "/";
+  font-size: var(--step-0);
+  font-weight: normal;
+}
+
+header.cluster,
+.breadcrumbs,
+.breadcrumbs > li,
+.breadcrumbs + h1 {
+  --cluster-space: var(--space-xs);
+}
+
+.listing {
+  --cluster-space: var(--space-xl);
+}
+
+.listing > li {
+  inline-size: 100%;
+}
+
+.listing img {
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.listing svg {
+  --fa-fw-width: 100%;
+}
+
+@media (min-width: 525px) {
+  .listing {
+    --cluster-space: var(--space-m);
+  }
+
+  .listing > li {
+    max-inline-size: var(--space-4xl);
+  }
+}

@@ -1,0 +1,38 @@
+:root {
+  --color-navy: hsl(210deg 100% 12%);
+  --color-blue: hsl(208deg 100% 43%);
+  --color-aqua: hsl(197deg 100% 75%);
+  --color-teal: hsl(180deg 59% 51%);
+  --color-purple: hsl(293deg 88% 42%);
+  --color-fuchsia: hsl(314deg 88% 51%);
+  --color-maroon: hsl(330deg 74% 30%);
+  --color-red: hsl(3deg 100% 61%);
+  --color-orange: hsl(28deg 100% 55%);
+  --color-yellow: hsl(52deg 100% 50%);
+  --color-olive: hsl(153deg 43% 42%);
+  --color-green: hsl(127deg 63% 49%);
+  --color-lime: hsl(146deg 100% 50%);
+  --color-black: hsl(0deg 0% 7%);
+  --color-gray: hsl(0deg 0% 67%);
+  --color-silver: hsl(0deg 0% 87%);
+  --color-white: hsl(0deg 0% 100%);
+  --bg-blue: hsl(208deg 100% 43% / 30%);
+  --step-n-2: clamp(0.69rem, calc(0.66rem + 0.18vw), 0.8rem);
+  --step-n-1: clamp(0.83rem, calc(0.78rem + 0.29vw), 1rem);
+  --step-0: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+  --step-1: clamp(1.2rem, calc(1.07rem + 0.63vw), 1.56rem);
+  --step-2: clamp(1.44rem, calc(1.26rem + 0.89vw), 1.95rem);
+  --step-3: clamp(1.73rem, calc(1.48rem + 1.24vw), 2.44rem);
+  --step-4: clamp(2.07rem, calc(1.73rem + 1.7vw), 3.05rem);
+  --step-5: clamp(2.49rem, calc(2.03rem + 2.31vw), 3.82rem);
+  --space-3xs: clamp(0.25rem, calc(0.23rem + 0.11vw), 0.31rem);
+  --space-2xs: clamp(0.5rem, calc(0.46rem + 0.22vw), 0.63rem);
+  --space-xs: clamp(0.75rem, calc(0.68rem + 0.33vw), 0.94rem);
+  --space-s: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+  --space-m: clamp(1.5rem, calc(1.37rem + 0.65vw), 1.88rem);
+  --space-l: clamp(2rem, calc(1.83rem + 0.87vw), 2.5rem);
+  --space-xl: clamp(3rem, calc(2.74rem + 1.3vw), 3.75rem);
+  --space-2xl: clamp(4rem, calc(3.65rem + 1.74vw), 5rem);
+  --space-3xl: clamp(6rem, calc(5.48rem + 2.61vw), 7.5rem);
+  --space-4xl: clamp(12.5rem, calc(11.41rem + 5.43vw), 15.63rem);
+}

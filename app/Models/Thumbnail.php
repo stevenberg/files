@@ -14,6 +14,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * @property Entry $entry
+ */
 class Thumbnail extends Model
 {
     use HasFactory, SoftDeletes;

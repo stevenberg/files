@@ -1,0 +1,6 @@
+.center {
+  display: block;
+  box-sizing: content-box;
+  margin-inline: auto;
+  text-align: center;
+}
