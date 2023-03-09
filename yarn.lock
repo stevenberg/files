@@ -267,10 +267,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hotwired/turbo@npm:^7.2.5":
-  version: 7.2.5
-  resolution: "@hotwired/turbo@npm:7.2.5"
-  checksum: 13992a1fa98978f1caea533b68e8514f62bc16291ca4a8eb526d531cfc43560de7bdc0d3c931b46ba364704b72520899975cae1100afc079fcb3447252d88a8e
+"@hotwired/turbo@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "@hotwired/turbo@npm:7.3.0"
+  checksum: ccc03c980e4b4636e48ea2132c7d28be1be4f4e6123f63905fbf871e7647369b5c6ce53301443b218d7abf68fa4897eaf614254688108ed6ae303c5040241a97
   languageName: node
   linkType: hard
 
@@ -981,14 +981,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.6.0":
-  version: 8.6.0
-  resolution: "eslint-config-prettier@npm:8.6.0"
+"eslint-config-prettier@npm:^8.7.0":
+  version: 8.7.0
+  resolution: "eslint-config-prettier@npm:8.7.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: ff0d0dfc839a556355422293428637e8d35693de58dabf8638bf0b6529131a109d0b2ade77521aa6e54573bb842d7d9d322e465dd73dd61c7590fa3834c3fa81
+  checksum: b05bc7f2296ce3e0925c14147849706544870e0382d38af2352d709a6cf8521bdaff2bd8e5021f1780e570775a8ffa1d2bac28b8065d90d43a3f1f98fd26ce52
   languageName: node
   linkType: hard
 
@@ -2530,10 +2530,10 @@ __metadata:
   dependencies:
     "@fortawesome/fontawesome-pro": ^6.3.0
     "@hotwired/stimulus": ^3.2.1
-    "@hotwired/turbo": ^7.2.5
+    "@hotwired/turbo": ^7.3.0
     "@prettier/plugin-xml": ^2.2.0
     eslint: ^8.35.0
-    eslint-config-prettier: ^8.6.0
+    eslint-config-prettier: ^8.7.0
     laravel-vite-plugin: ^0.7.4
     prettier: ^2.8.4
     stimulus-vite-helpers: ^3.0.1
