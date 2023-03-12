@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
+@section('heading', $presenter->name)
+
 @section('main')
-  <main class="stack-large">
-    <ul class="cluster listing">
-      @each('folders.folder', $presenter->folders, 'folder')
-    </ul>
-  </main>
+  <ul class="cluster listing">
+    @each('folders.folder', $presenter->folders, 'folder')
+  </ul>
 @endsection

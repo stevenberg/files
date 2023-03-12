@@ -27,7 +27,9 @@
         {{ $presenter->name }}
       </h1>
     </header>
-    @yield('main')
+    <main class="@yield('main-class', 'stack-large')">
+      @yield('main')
+    </main>
     <x-sprite/>
   </body>
 </html>
