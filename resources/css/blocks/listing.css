@@ -1,0 +1,26 @@
+.listing {
+  --cluster-space: var(--space-xl);
+}
+
+.listing > li {
+  inline-size: 100%;
+}
+
+.listing img {
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.listing svg {
+  --fa-fw-width: 100%;
+}
+
+@media (min-width: 525px) {
+  .listing {
+    --cluster-space: var(--space-m);
+  }
+
+  .listing > li {
+    max-inline-size: var(--space-4xl);
+  }
+}

@@ -5,12 +5,14 @@
 @import url("components/center.css");
 @import url("components/cluster.css");
 @import url("components/stack.css");
+@import url("blocks/breadcrumbs.css");
+@import url("blocks/listing.css");
 
 body {
   --color-text: var(--color-black);
   --color-background: var(--color-white);
   --color-highlight: var(--color-blue);
-  --color-border: var(--color-silver);
+  --color-border: var(--color-gray);
 
   padding: var(--space-m);
 
@@ -26,7 +28,6 @@ body {
   body {
     --color-text: var(--color-white);
     --color-background: var(--color-black);
-    --color-border: var(--color-gray);
   }
 }
 
@@ -48,55 +49,10 @@ main {
 
 h1 {
   font-size: var(--step-3);
-  line-height: 1;
 }
 
 ul {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.breadcrumbs > li + li::before {
-  content: "/";
-}
-
-.breadcrumbs + h1::before {
-  content: "/";
-  font-size: var(--step-0);
-  font-weight: normal;
-}
-
-header.cluster,
-.breadcrumbs,
-.breadcrumbs > li,
-.breadcrumbs + h1 {
-  --cluster-space: var(--space-xs);
-}
-
-.listing {
-  --cluster-space: var(--space-xl);
-}
-
-.listing > li {
-  inline-size: 100%;
-}
-
-.listing img {
-  inline-size: 100%;
-  block-size: auto;
-}
-
-.listing svg {
-  --fa-fw-width: 100%;
-}
-
-@media (min-width: 525px) {
-  .listing {
-    --cluster-space: var(--space-m);
-  }
-
-  .listing > li {
-    max-inline-size: var(--space-4xl);
-  }
 }
