@@ -4,6 +4,7 @@
   "require": {
     "php": "^8.2",
     "guzzlehttp/guzzle": "^7.5",
+    "laravel/fortify": "^1.16",
     "laravel/framework": "^10.3",
     "laravel/telescope": "^4.14",
     "laravel/tinker": "^2.8",
