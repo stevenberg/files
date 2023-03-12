@@ -11,23 +11,12 @@
     @stack('head')
   </head>
   <body class="stack">
-    <header class="cluster">
-      @if ($presenter->breadcrumbs()->isNotEmpty())
-        <ul class="cluster breadcrumbs">
-          @foreach ($presenter->breadcrumbs() as $breadcrumb)
-            <li class="cluster">
-              <a href="{{ $breadcrumb->url }}">
-                {{ $breadcrumb->name }}
-              </a>
-            </li>
-          @endforeach
-        </ul>
-      @endif
-      <h1 class="cluster">
-        {{ $presenter->name }}
-      </h1>
-    </header>
+    <div class="cluster">
+      @include('header')
+      @include('nav')
+    </div>
     <main class="@yield('main-class', 'stack-large')">
+      @include('alerts')
       @yield('main')
     </main>
     <x-sprite/>

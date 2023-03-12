@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\ThumbnailController;
@@ -43,4 +44,10 @@ Route::get(
     [ThumbnailController::class, 'show'],
 )
     ->name('thumbnails.show')
+;
+
+Route::singleton('account', AccountController::class)
+    ->only([
+        'show',
+    ])
 ;

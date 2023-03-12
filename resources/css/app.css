@@ -5,6 +5,8 @@
 @import url("components/center.css");
 @import url("components/cluster.css");
 @import url("components/stack.css");
+@import url("blocks/alert.css");
+@import url("blocks/auth-form.css");
 @import url("blocks/breadcrumbs.css");
 @import url("blocks/listing.css");
 
@@ -13,6 +15,9 @@ body {
   --color-background: var(--color-white);
   --color-highlight: var(--color-blue);
   --color-border: var(--color-gray);
+  --color-button: var(--color-blue);
+  --color-button-pressed: var(--color-navy);
+  --color-button-text: var(--color-white);
 
   padding: var(--space-m);
 
@@ -55,4 +60,80 @@ ul {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+input[type="checkbox"] {
+  display: inline-block;
+  width: var(--step-0);
+  height: var(--step-0);
+  accent-color: var(--color-highlight);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: var(--space-3xs);
+
+  color: var(--color-text);
+
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--space-3xs);
+}
+
+.error {
+  font-size: var(--step-n-1);
+  color: var(--color-red);
+}
+
+form > div:has(> .error) {
+  color: var(--color-red);
+}
+
+form > div:has(> .error) > input {
+  border-color: var(--color-red);
+}
+
+button {
+  display: flex;
+  gap: var(--space-3xs);
+  align-items: center;
+
+  inline-size: max-content;
+  padding: var(--space-3xs) var(--space-xs);
+
+  color: var(--color-button-text);
+
+  background: var(--color-button);
+  border: none;
+  border-radius: var(--space-3xs);
+}
+
+nav a:link,
+nav a:visited,
+nav button {
+  display: flex;
+  gap: var(--space-3xs);
+  align-items: center;
+
+  padding: 0;
+
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-highlight);
+  text-decoration-thickness: 2px;
+
+  background: var(--color-background);
+}
+
+button:active {
+  background: var(--color-button-pressed);
+}
+
+nav a:hover,
+nav a:active,
+nav button:hover,
+nav button:active {
+  color: var(--color-highlight);
+  background: var(--color-background);
 }

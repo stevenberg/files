@@ -16,7 +16,7 @@
   --color-gray: hsl(0deg 0% 67%);
   --color-silver: hsl(0deg 0% 87%);
   --color-white: hsl(0deg 0% 100%);
-  --bg-blue: hsl(208deg 100% 43% / 30%);
+  --bg-blue: hsl(208deg 100% 43% / 20%);
   --step-n-2: clamp(0.69rem, calc(0.66rem + 0.18vw), 0.8rem);
   --step-n-1: clamp(0.83rem, calc(0.78rem + 0.29vw), 1rem);
   --step-0: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
@@ -35,4 +35,5 @@
   --space-2xl: clamp(4rem, calc(3.65rem + 1.74vw), 5rem);
   --space-3xl: clamp(6rem, calc(5.48rem + 2.61vw), 7.5rem);
   --space-4xl: clamp(12.5rem, calc(11.41rem + 5.43vw), 15.63rem);
+  --space-5xl: clamp(15.00rem, calc(13.70rem + 6.52vw), 18.75rem);
 }

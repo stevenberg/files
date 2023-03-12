@@ -1,3 +1,15 @@
 .color-blue {
   color: var(--color-blue);
 }
+
+.align-self-center {
+  align-self: center !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.margin-inline-start-auto {
+  margin-inline-start: auto;
+}

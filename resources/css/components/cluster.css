@@ -7,7 +7,3 @@
   column-gap: var(--cluster-space);
   align-items: baseline;
 }
-
-/* .cluster > * {
-  margin: var(--cluster-space);
-} */
