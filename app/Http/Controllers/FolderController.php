@@ -20,6 +20,8 @@ class FolderController extends Controller
 
     public function show(Folder $folder): View
     {
+        $this->authorize('view', $folder);
+
         return view('folders.show', [
             'presenter' => new Show($folder),
         ]);

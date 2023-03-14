@@ -13,6 +13,8 @@ class FileController extends Controller
 {
     public function show(Folder $folder, Entry $entry): BinaryFileResponse
     {
+        $this->authorize('view', $entry);
+
         $type = Storage::mimeType($entry->path);
 
         if ($type === false) {

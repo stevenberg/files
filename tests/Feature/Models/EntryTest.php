@@ -7,6 +7,7 @@ namespace Tests\Feature\Models;
 use App\Models\Entry;
 use App\Models\Folder;
 use App\Models\Thumbnail;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,7 @@ class EntryTest extends TestCase
         Model::preventSilentlyDiscardingAttributes(false);
 
         $entry = new Entry([
+            'restricted' => true,
             'name' => 'test',
             'path' => 'test',
             'url_key' => 'test',
@@ -33,6 +35,7 @@ class EntryTest extends TestCase
             'folder_id' => 1,
         ]);
 
+        $this->assertSame(true, $entry->restricted);
         $this->assertSame('test', $entry->name);
         $this->assertSame('test', $entry->path);
         $this->assertSame('test', $entry->url_key);
@@ -66,6 +69,16 @@ class EntryTest extends TestCase
 
         $this->assertInstanceOf(Thumbnail::class, $entry->thumbnail);
         $this->assertFalse($entry->thumbnail->exists);
+    }
+
+    public function test_users_relationship(): void
+    {
+        $entry = Entry::factory()->forFolder()->create();
+        $user = User::factory()->create();
+
+        $entry->users()->attach($user);
+
+        $this->assertTrue($entry->users->contains($user));
     }
 
     public function test_implicitly_deleted_scope(): void
@@ -108,6 +121,22 @@ class EntryTest extends TestCase
         $ancestors->zip($expected)->eachSpread(function ($folder, $expected) {
             $this->assertTrue($folder->is($expected));
         });
+    }
+
+    public function test_is_restricted(): void
+    {
+        $entry = Entry::factory()->forFolder()->create();
+
+        $this->assertFalse($entry->isRestricted);
+
+        $entry->restricted = true;
+
+        $this->assertTrue($entry->isRestricted);
+
+        $entry->restricted = false;
+        $entry->folder->restricted = true;
+
+        $this->assertTrue($entry->isRestricted);
     }
 
     public function test_implicitly_delete(): void

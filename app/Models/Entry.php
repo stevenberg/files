@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -23,6 +24,7 @@ class Entry extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'restricted',
         'name',
         'path',
         'url_key',
@@ -30,6 +32,7 @@ class Entry extends Model
     ];
 
     protected $casts = [
+        'restricted' => 'boolean',
         'implicitly_deleted' => 'boolean',
     ];
 
@@ -45,6 +48,12 @@ class Entry extends Model
         return $this->hasOne(Thumbnail::class)->withDefault();
     }
 
+    /** @return BelongsToMany<User> */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
     /**
      * @param  Builder<self>  $query
      * @return Builder<self>
@@ -58,6 +67,11 @@ class Entry extends Model
     public function getAncestorsAttribute(): Collection
     {
         return $this->folder->ancestors->push($this->folder);
+    }
+
+    public function getIsRestrictedAttribute(): bool
+    {
+        return $this->restricted || $this->ancestors->some->restricted;
     }
 
     public function getRouteKeyName(): string

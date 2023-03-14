@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -19,6 +20,7 @@ class Folder extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'restricted',
         'name',
         'path_key',
         'url_key',
@@ -26,6 +28,7 @@ class Folder extends Model
     ];
 
     protected $casts = [
+        'restricted' => 'boolean',
         'implicitly_deleted' => 'boolean',
     ];
 
@@ -45,6 +48,12 @@ class Folder extends Model
     public function entries(): HasMany
     {
         return $this->hasMany(Entry::class);
+    }
+
+    /** @return BelongsToMany<User> */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     /**
@@ -75,6 +84,11 @@ class Folder extends Model
         }
 
         return $ancestors;
+    }
+
+    public function getIsRestrictedAttribute(): bool
+    {
+        return $this->restricted || $this->ancestors->some->restricted;
     }
 
     public function getUploadsPathAttribute(): string

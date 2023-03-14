@@ -6,6 +6,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\Entry;
 use App\Models\Folder;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +26,7 @@ class FolderTest extends TestCase
         Model::preventSilentlyDiscardingAttributes(false);
 
         $folder = new Folder([
+            'restricted' => true,
             'name' => 'test',
             'path_key' => 'test',
             'url_key' => 'test',
@@ -32,6 +34,7 @@ class FolderTest extends TestCase
             'folder_id' => 1,
         ]);
 
+        $this->assertSame(true, $folder->restricted);
         $this->assertSame('test', $folder->name);
         $this->assertSame('test', $folder->path_key);
         $this->assertSame('test', $folder->url_key);
@@ -67,6 +70,16 @@ class FolderTest extends TestCase
         $folder->entries()->save($entry);
 
         $this->assertTrue($folder->entries->contains($entry));
+    }
+
+    public function test_users_relationship(): void
+    {
+        $folder = Folder::factory()->create();
+        $user = User::factory()->create();
+
+        $folder->users()->attach($user);
+
+        $this->assertTrue($folder->users->contains($user));
     }
 
     public function test_root_scope(): void
@@ -117,6 +130,22 @@ class FolderTest extends TestCase
         $ancestors->zip($expected)->eachSpread(function ($folder, $expected) {
             $this->assertTrue($folder->is($expected));
         });
+    }
+
+    public function test_is_restricted(): void
+    {
+        $folder = Folder::factory()->forFolder()->create();
+
+        $this->assertFalse($folder->isRestricted);
+
+        $folder->restricted = true;
+
+        $this->assertTrue($folder->isRestricted);
+
+        $folder->restricted = false;
+        $folder->folder->restricted = true;
+
+        $this->assertTrue($folder->isRestricted);
     }
 
     public function test_uploads_path(): void
