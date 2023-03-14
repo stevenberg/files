@@ -38,6 +38,20 @@ class UserFactory extends Factory
         ]);
     }
 
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'pending',
+        ]);
+    }
+
+    public function viewer(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'viewer',
+        ]);
+    }
+
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
