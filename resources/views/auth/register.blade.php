@@ -5,7 +5,7 @@
 
 @section('main')
   <section class="stack align-items-center">
-    <x-form :action="route('register')" method="post" class="stack auth-form">
+    <x-form :action="route('register')" method="post" class="stack narrow-form">
       <x-form.input name="name">
         <x-form.input.label/>
         <x-form.input.text autocomplete="name"/>

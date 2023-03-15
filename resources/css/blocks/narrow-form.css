@@ -1,9 +1,9 @@
-.auth-form {
+.narrow-form {
   inline-size: 100%;
 }
 
 @media (min-width: 525px) {
-  .auth-form {
+  .narrow-form {
     inline-size: var(--space-5xl);
   }
 }

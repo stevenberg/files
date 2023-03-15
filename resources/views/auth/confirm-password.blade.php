@@ -4,7 +4,7 @@
 @section('main-class', 'stack-large stack align-items-center')
 
 @section('main')
-  <x-form :action="route('password.confirm')" method="post" class="stack auth-form">
+  <x-form :action="route('password.confirm')" method="post" class="stack narrow-form">
     <x-form.input name="password">
       <x-form.input.label/>
       <x-form.input.text type="password" autocomplete="current-password"/>

@@ -9,7 +9,7 @@
       <div>
         {!! auth()->user()->twoFactorQrCodeSvg() !!}
       </div>
-      <x-form :action="route('two-factor.confirm')" method="post" class="stack auth-form">
+      <x-form :action="route('two-factor.confirm')" method="post" class="stack narrow-form">
         <x-form.input name="code">
           <x-form.input.label/>
           <x-form.input.text/>
@@ -22,19 +22,19 @@
   @else
     <section class="stack align-items-center">
       @if (auth()->user()->hasEnabledTwoFactorAuthentication())
-        <x-form :action="route('two-factor.disable')" method="delete" class="auth-form">
+        <x-form :action="route('two-factor.disable')" method="delete" class="narrow-form">
           <button>
             Disable 2FA
           </button>
         </x-form>
       @else
-        <x-form :action="route('two-factor.enable')" method="post" class="auth-form">
+        <x-form :action="route('two-factor.enable')" method="post" class="narrow-form">
           <button>
             Enable 2FA
           </button>
         </x-form>
       @endif
-      <x-form :action="route('user-profile-information.update')" method="put" :model="auth()->user()" validation="updateProfileInformation" class="stack-large stack auth-form">
+      <x-form :action="route('user-profile-information.update')" method="put" :model="auth()->user()" validation="updateProfileInformation" class="stack-large stack narrow-form">
         <x-form.input name="name">
           <x-form.input.label/>
           <x-form.input.text autocomplete="name"/>
@@ -47,7 +47,7 @@
           <span>Update profile</span>
         </button>
       </x-form>
-      <x-form :action="route('user-password.update')" method="put" validation="updatePassword" class="stack-large stack auth-form">
+      <x-form :action="route('user-password.update')" method="put" validation="updatePassword" class="stack-large stack narrow-form">
         <x-form.input name="current_password">
           <x-form.input.label/>
           <x-form.input.text type="password" autocomplete="current-password"/>
