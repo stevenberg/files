@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\EntryController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\ThumbnailController;
@@ -31,6 +32,16 @@ Route::resource('folders', FolderController::class)
         'update',
         'delete',
     ])
+;
+
+Route::resource('folders.entries', EntryController::class)
+    ->only([
+        'create',
+        'store',
+        'update',
+        'delete',
+    ])
+    ->scoped()
 ;
 
 Route::resource('folders.files', FileController::class)

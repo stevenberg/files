@@ -10,6 +10,12 @@
     </a>
   @endguest
   @auth
+    @can('create', [App\Models\Entry::class, $presenter->folder])
+      <a href="{{ route('folders.entries.create', $presenter->folder) }}">
+        <x-icon name="file-plus"/>
+        New file
+      </a>
+    @endcan
     @can('create', App\Models\Folder::class)
       <a href="{{ route('folders.create', ['folder_id' => $presenter->folder->id]) }}">
         <x-icon name="folder-plus"/>

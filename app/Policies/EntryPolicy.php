@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Models\Entry;
+use App\Models\Folder;
 use App\Models\User;
 
 class EntryPolicy
@@ -15,7 +16,7 @@ class EntryPolicy
     public function before(User $user, string $ability): bool|null
     {
         // An admin can do everything.
-        if ($user->role === 'admin') {
+        if ($ability !== 'create' && $user->role === 'admin') {
             return true;
         }
 
@@ -49,9 +50,9 @@ class EntryPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Folder $folder): bool
     {
-        return false;
+        return $user->role === 'admin' && ! $folder->isRoot;
     }
 
     /**
