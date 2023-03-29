@@ -31,12 +31,12 @@ class ProcessUploadTest extends TestCase
 
         Storage::put('uploads/test/test.txt', 'test');
 
-        $job = new ProcessUpload($folder, 'uploads/test/test.txt');
+        $job = new ProcessUpload($folder, 'uploads/test/test.txt', 'Test File');
         $job->handle();
 
         $entry = $folder->entries->first();
 
-        $this->assertSame('test', $entry->name);
+        $this->assertSame('Test File', $entry->name);
         Storage::assertExists($entry->path);
         $this->assertSame('test', Storage::get($entry->path));
         Storage::assertMissing('uploads/test/test.txt');
