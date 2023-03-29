@@ -9,6 +9,7 @@ use App\Presenters\Presenter;
 use Illuminate\Support\Collection;
 
 /**
+ * @property Folder $folder
  * @property string $name
  * @property Collection<int, Folder> $folders
  */
@@ -16,7 +17,8 @@ class Index extends Presenter
 {
     public function __construct()
     {
-        $this->name = config('app.name');
-        $this->folders = Folder::root()->get();
+        $this->folder = Folder::root()->firstOrFail();
+        $this->name = $this->folder->name;
+        $this->folders = $this->folder->folders;
     }
 }

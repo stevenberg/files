@@ -9,6 +9,7 @@ use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -19,6 +20,7 @@ class FolderTest extends TestCase
         parent::setUp();
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('db:setup');
     }
 
     public function test_fillable_attributes(): void
@@ -44,7 +46,7 @@ class FolderTest extends TestCase
 
     public function test_folder_relationship(): void
     {
-        $parent = Folder::factory()->create();
+        $parent = Folder::factory()->inRoot()->create();
         $child = Folder::factory()->make();
 
         $child->folder()->associate($parent);
@@ -54,7 +56,7 @@ class FolderTest extends TestCase
 
     public function test_folders_relationship(): void
     {
-        $parent = Folder::factory()->create();
+        $parent = Folder::factory()->inRoot()->create();
         $child = Folder::factory()->make();
 
         $parent->folders()->save($child);
@@ -64,7 +66,7 @@ class FolderTest extends TestCase
 
     public function test_entries_relationship(): void
     {
-        $folder = Folder::factory()->create();
+        $folder = Folder::factory()->inRoot()->create();
         $entry = Entry::factory()->make();
 
         $folder->entries()->save($entry);
@@ -74,7 +76,7 @@ class FolderTest extends TestCase
 
     public function test_users_relationship(): void
     {
-        $folder = Folder::factory()->create();
+        $folder = Folder::factory()->inRoot()->create();
         $user = User::factory()->create();
 
         $folder->users()->attach($user);
@@ -84,8 +86,8 @@ class FolderTest extends TestCase
 
     public function test_root_scope(): void
     {
-        $root = Folder::factory()->create();
-        $child = Folder::factory()->for($root)->create();
+        $root = Folder::root()->first();
+        $child = Folder::factory()->inRoot()->create();
 
         $folders = Folder::root()->get();
 
@@ -102,6 +104,7 @@ class FolderTest extends TestCase
                 ['implicitly_deleted' => false],
                 ['implicitly_deleted' => true],
             ))
+            ->inRoot()
             ->create()
         ;
 
@@ -116,12 +119,10 @@ class FolderTest extends TestCase
 
     public function test_ancestors(): void
     {
-        $root = Folder::factory()->create();
-        $parent = Folder::factory()->for($root)->create();
+        $parent = Folder::factory()->inRoot()->create();
         $child = Folder::factory()->for($parent)->create();
 
         $expected = [
-            $root,
             $parent,
         ];
 
@@ -134,7 +135,8 @@ class FolderTest extends TestCase
 
     public function test_is_restricted(): void
     {
-        $folder = Folder::factory()->forFolder()->create();
+        $parent = Folder::factory()->inRoot();
+        $folder = Folder::factory()->for($parent)->create();
 
         $this->assertFalse($folder->isRestricted);
 
@@ -150,7 +152,7 @@ class FolderTest extends TestCase
 
     public function test_uploads_path(): void
     {
-        $parent = Folder::factory()->create([
+        $parent = Folder::factory()->inRoot()->create([
             'path_key' => 'parent',
         ]);
         $child = Folder::factory()->for($parent)->create([
@@ -162,7 +164,7 @@ class FolderTest extends TestCase
 
     public function test_files_path(): void
     {
-        $parent = Folder::factory()->create([
+        $parent = Folder::factory()->inRoot()->create([
             'path_key' => 'parent',
         ]);
         $child = Folder::factory()->for($parent)->create([
@@ -174,7 +176,7 @@ class FolderTest extends TestCase
 
     public function test_thumbnails_path(): void
     {
-        $parent = Folder::factory()->create([
+        $parent = Folder::factory()->inRoot()->create([
             'path_key' => 'parent',
         ]);
         $child = Folder::factory()->for($parent)->create([
@@ -186,12 +188,13 @@ class FolderTest extends TestCase
 
     public function test_implicitly_delete(): void
     {
-        $folder = Folder::factory()->create();
+        $folder = Folder::factory()->inRoot()->create();
 
         $folder->implicitlyDelete();
 
         $this->assertSoftDeleted($folder);
         $this->assertTrue($folder->implicitly_deleted);
+        Storage::assertExists($folder->uploadsPath);
     }
 
     public function test_ordered_by_name(): void
@@ -203,6 +206,7 @@ class FolderTest extends TestCase
                 ['name' => 'A'],
                 ['name' => 'C'],
             ))
+            ->inRoot()
             ->create()
         ;
 
@@ -212,7 +216,7 @@ class FolderTest extends TestCase
             $folders[2],
         ];
 
-        $folders = Folder::all();
+        $folders = Folder::root()->first()->folders;
 
         $folders->zip($expected)->eachSpread(function ($folder, $expected) {
             $this->assertTrue($folder->is($expected));
@@ -221,7 +225,7 @@ class FolderTest extends TestCase
 
     public function test_sets_path_key_on_creating(): void
     {
-        $folder = Folder::factory()->create([
+        $folder = Folder::factory()->inRoot()->create([
             'name' => 'Test Folder',
         ]);
 
@@ -230,7 +234,7 @@ class FolderTest extends TestCase
 
     public function test_sets_url_key_on_creating(): void
     {
-        $parent = Folder::factory()->create([
+        $parent = Folder::factory()->inRoot()->create([
             'path_key' => 'parent',
         ]);
         $folder = Folder::factory()->for($parent)->create([
@@ -242,7 +246,7 @@ class FolderTest extends TestCase
 
     public function test_makes_directories_on_created(): void
     {
-        $folder = Folder::factory()->create([
+        $folder = Folder::factory()->inRoot()->create([
             'name' => 'Test Folder',
         ]);
 
@@ -253,7 +257,7 @@ class FolderTest extends TestCase
 
     public function test_soft_deletion(): void
     {
-        $parent = Folder::factory()->create([
+        $parent = Folder::factory()->inRoot()->create([
             'name' => 'Test Folder',
         ]);
         $child = Folder::factory()->for($parent)->create();
@@ -292,7 +296,7 @@ class FolderTest extends TestCase
 
     public function test_force_deletion(): void
     {
-        $parent = Folder::factory()->create([
+        $parent = Folder::factory()->inRoot()->create([
             'name' => 'Test Folder',
         ]);
         $child = Folder::factory()->for($parent)->create();

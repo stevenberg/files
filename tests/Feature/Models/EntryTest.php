@@ -10,6 +10,7 @@ use App\Models\Thumbnail;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -20,6 +21,7 @@ class EntryTest extends TestCase
         parent::setUp();
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('db:setup');
     }
 
     public function test_fillable_attributes(): void
@@ -45,7 +47,7 @@ class EntryTest extends TestCase
 
     public function test_folder_relationship(): void
     {
-        $folder = Folder::factory()->create();
+        $folder = Folder::factory()->inRoot()->create();
         $entry = Entry::factory()->make();
 
         $entry->folder()->associate($folder);
@@ -55,7 +57,7 @@ class EntryTest extends TestCase
 
     public function test_thumbnail_relationship(): void
     {
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
         $thumbnail = Thumbnail::factory()->make();
 
         $entry->thumbnail()->save($thumbnail);
@@ -65,7 +67,7 @@ class EntryTest extends TestCase
 
     public function test_default_thumbnail(): void
     {
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
 
         $this->assertInstanceOf(Thumbnail::class, $entry->thumbnail);
         $this->assertFalse($entry->thumbnail->exists);
@@ -73,7 +75,7 @@ class EntryTest extends TestCase
 
     public function test_users_relationship(): void
     {
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
         $user = User::factory()->create();
 
         $entry->users()->attach($user);
@@ -85,7 +87,7 @@ class EntryTest extends TestCase
     {
         $entries = Entry::factory()
             ->count(3)
-            ->forFolder()
+            ->for(Folder::factory()->inRoot())
             ->state(new Sequence(
                 ['implicitly_deleted' => false],
                 ['implicitly_deleted' => false],
@@ -105,13 +107,11 @@ class EntryTest extends TestCase
 
     public function test_ancestors(): void
     {
-        $root = Folder::factory()->create();
-        $parent = Folder::factory()->for($root)->create();
+        $parent = Folder::factory()->inRoot()->create();
         $child = Folder::factory()->for($parent)->create();
         $entry = Entry::factory()->for($child)->create();
 
         $expected = [
-            $root,
             $parent,
             $child,
         ];
@@ -125,7 +125,7 @@ class EntryTest extends TestCase
 
     public function test_is_restricted(): void
     {
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
 
         $this->assertFalse($entry->isRestricted);
 
@@ -141,7 +141,7 @@ class EntryTest extends TestCase
 
     public function test_implicitly_delete(): void
     {
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
 
         $entry->implicitlyDelete();
 
@@ -153,7 +153,7 @@ class EntryTest extends TestCase
     {
         $entries = Entry::factory()
             ->count(3)
-            ->forFolder()
+            ->for(Folder::factory()->inRoot())
             ->state(new Sequence(
                 ['name' => 'B'],
                 ['name' => 'A'],
@@ -177,7 +177,7 @@ class EntryTest extends TestCase
 
     public function test_sets_url_key_on_creating(): void
     {
-        $entry = Entry::factory()->forFolder()->create([
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'name' => 'Test Entry',
         ]);
 
@@ -186,7 +186,7 @@ class EntryTest extends TestCase
 
     public function test_soft_deletion(): void
     {
-        $entry = Entry::factory()->forFolder()->create([
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'name' => 'Test Entry',
         ]);
         $thumbnail = Thumbnail::factory()->for($entry)->create();
@@ -202,7 +202,7 @@ class EntryTest extends TestCase
 
     public function test_force_deletion(): void
     {
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
         $thumbnail = Thumbnail::factory()->for($entry)->create();
 
         Storage::assertExists($entry->path);

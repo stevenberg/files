@@ -8,6 +8,8 @@ use App\Jobs\CreateImageThumbnail;
 use App\Jobs\CreatePdfThumbnail;
 use App\Jobs\CreateThumbnail;
 use App\Models\Entry;
+use App\Models\Folder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -20,13 +22,14 @@ class CreateThumbnailTest extends TestCase
         Queue::fake();
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('db:setup');
     }
 
     public function test_pdf(): void
     {
         copy(base_path('tests/fixtures/test.pdf'), Storage::path('test.pdf'));
 
-        $pdfEntry = Entry::factory()->forFolder()->create([
+        $pdfEntry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'path' => 'test.pdf',
         ]);
 
@@ -42,7 +45,7 @@ class CreateThumbnailTest extends TestCase
     {
         copy(base_path('tests/fixtures/test.jpg'), Storage::path('test.jpg'));
 
-        $entry = Entry::factory()->forFolder()->create([
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'path' => 'test.jpg',
         ]);
 
@@ -58,7 +61,7 @@ class CreateThumbnailTest extends TestCase
     {
         copy(base_path('tests/fixtures/test.png'), Storage::path('test.png'));
 
-        $entry = Entry::factory()->forFolder()->create([
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'path' => 'test.png',
         ]);
 
@@ -74,7 +77,7 @@ class CreateThumbnailTest extends TestCase
     {
         copy(base_path('tests/fixtures/test.txt'), Storage::path('test.txt'));
 
-        $entry = Entry::factory()->forFolder()->create([
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'path' => 'test.txt',
         ]);
 

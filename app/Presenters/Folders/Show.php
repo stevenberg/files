@@ -17,12 +17,13 @@ use Illuminate\Support\Collection;
  */
 class Show extends Presenter
 {
-    public function __construct(public Folder $model)
+    public function __construct(public Folder $folder)
     {
-        $this->name = $this->model->name;
-        $this->folders = $this->model->folders;
+        $this->name = $this->folder->name;
+        $this->ancestors = $this->folder->ancestors;
+        $this->folders = $this->folder->folders;
         $this->entries = $this
-            ->model
+            ->folder
             ->entries
             ->mapInto(EntryPresenter::class)
         ;

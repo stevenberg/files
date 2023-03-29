@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models;
 
 use App\Models\Entry;
+use App\Models\Folder;
 use App\Models\Thumbnail;
 use App\Values\Thumbnails\Shape;
 use App\Values\Thumbnails\Size;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -19,6 +21,7 @@ class ThumbnailTest extends TestCase
         parent::setUp();
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('db:setup');
     }
 
     public function test_fillable_attributes(): void
@@ -40,7 +43,7 @@ class ThumbnailTest extends TestCase
 
     public function test_entry_relationship(): void
     {
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
         $thumbnail = Thumbnail::factory()->make();
 
         $thumbnail->entry()->associate($entry);
@@ -51,7 +54,7 @@ class ThumbnailTest extends TestCase
     public function test_paths(): void
     {
         $thumbnail = Thumbnail::factory()
-            ->for(Entry::factory()->forFolder())
+            ->for(Entry::factory()->for(Folder::factory()->inRoot()))
             ->create([
                 'path_template' => 'test_[SHAPE]_[SIZE].jpg',
             ])
@@ -78,7 +81,7 @@ class ThumbnailTest extends TestCase
     public function test_paths_with_argument(): void
     {
         $thumbnail = Thumbnail::factory()
-            ->for(Entry::factory()->forFolder())
+            ->for(Entry::factory()->for(Folder::factory()->inRoot()))
             ->create([
                 'path_template' => 'test_[SHAPE]_[SIZE].jpg',
             ])
@@ -99,7 +102,7 @@ class ThumbnailTest extends TestCase
     public function test_path(): void
     {
         $thumbnail = Thumbnail::factory()
-            ->for(Entry::factory()->forFolder())
+            ->for(Entry::factory()->for(Folder::factory()->inRoot()))
             ->create([
                 'path_template' => 'test_[SHAPE]_[SIZE].jpg',
             ])
@@ -119,7 +122,7 @@ class ThumbnailTest extends TestCase
     public function test_deletes_path_on_force_deleted(): void
     {
         $thumbnail = Thumbnail::factory()
-            ->for(Entry::factory()->forFolder())
+            ->for(Entry::factory()->for(Folder::factory()->inRoot()))
             ->create()
         ;
 

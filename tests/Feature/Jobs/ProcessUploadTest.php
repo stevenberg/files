@@ -7,6 +7,7 @@ namespace Tests\Feature\Jobs;
 use App\Jobs\CreateThumbnail;
 use App\Jobs\ProcessUpload;
 use App\Models\Folder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -19,11 +20,12 @@ class ProcessUploadTest extends TestCase
         Queue::fake();
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('db:setup');
     }
 
     public function test_job(): void
     {
-        $folder = Folder::factory()->create([
+        $folder = Folder::factory()->inRoot()->create([
             'name' => 'Test',
         ]);
 

@@ -21,7 +21,7 @@ abstract class Presenter
 
     public function __get(string $name): mixed
     {
-        return $this->properties[$name];
+        return $this->properties[$name] ?? null;
     }
 
     public function __isset(string $name): bool
@@ -37,13 +37,12 @@ abstract class Presenter
     /** @return Collection<int, Breadcrumb> */
     public function breadcrumbs(): Collection
     {
-        if (! isset($this->model)) {
+        if (! isset($this->ancestors)) {
             return new Collection;
         }
 
         if (! isset($this->breadcrumbs)) {
             $this->breadcrumbs = $this
-                ->model
                 ->ancestors
                 ->map(fn ($f) => new Breadcrumb($f->name, route('folders.show', $f)))
                 ->prepend(new Breadcrumb(config('app.name'), route('home')))

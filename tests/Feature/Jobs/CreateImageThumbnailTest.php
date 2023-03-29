@@ -6,6 +6,8 @@ namespace Tests\Feature\Jobs;
 
 use App\Jobs\CreateImageThumbnail;
 use App\Models\Entry;
+use App\Models\Folder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -16,13 +18,14 @@ class CreateImageThumbnailTest extends TestCase
         parent::setUp();
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('db:setup');
     }
 
     public function test_jpg(): void
     {
         copy(base_path('tests/fixtures/test.jpg'), Storage::path('test.jpg'));
 
-        $entry = Entry::factory()->forFolder()->create([
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'path' => 'test.jpg',
         ]);
 
@@ -41,7 +44,7 @@ class CreateImageThumbnailTest extends TestCase
     {
         copy(base_path('tests/fixtures/test.png'), Storage::path('test.png'));
 
-        $entry = Entry::factory()->forFolder()->create([
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
             'path' => 'test.png',
         ]);
 

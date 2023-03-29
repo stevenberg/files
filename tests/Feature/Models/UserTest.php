@@ -9,6 +9,7 @@ use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -19,6 +20,7 @@ class UserTest extends TestCase
         parent::setUp();
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('db:setup');
     }
 
     public function test_fillable_attributes(): void
@@ -73,7 +75,7 @@ class UserTest extends TestCase
     public function test_folders_relationship(): void
     {
         $user = User::factory()->create();
-        $folder = Folder::factory()->create();
+        $folder = Folder::factory()->inRoot()->create();
 
         $user->folders()->attach($folder);
 
@@ -83,7 +85,7 @@ class UserTest extends TestCase
     public function test_entries_relationship(): void
     {
         $user = User::factory()->create();
-        $entry = Entry::factory()->forFolder()->create();
+        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
 
         $user->entries()->attach($entry);
 

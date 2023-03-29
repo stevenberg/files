@@ -11,12 +11,14 @@ class FolderSeeder extends Seeder
 {
     public function run(): void
     {
-        Folder::create([
+        $root = Folder::root()->first();
+
+        $root->folders()->create([
             'name' => 'D&D',
             'path_key' => 'dnd',
         ]);
 
-        $vampire = Folder::create([
+        $vampire = $root->folders()->create([
             'name' => 'Vampire',
         ]);
 

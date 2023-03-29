@@ -77,9 +77,15 @@ class Folder extends Model
     /** @return Collection<int, self> */
     public function getAncestorsAttribute(): Collection
     {
+        $root = Folder::root()->firstOrFail();
+
         $ancestors = new Collection;
 
-        for ($parent = $this->folder; ! is_null($parent); $parent = $parent->folder) {
+        if ($this->is($root)) {
+            return $ancestors;
+        }
+
+        for ($parent = $this->folder; ! $parent?->is($root); $parent = $parent?->folder) {
             $ancestors->prepend($parent);
         }
 
@@ -149,7 +155,10 @@ class Folder extends Model
         static::deleted(function (Folder $folder) {
             $folder->folders->each->implicitlyDelete();
             $folder->entries->each->implicitlyDelete();
-            Storage::deleteDirectory($folder->uploadsPath);
+
+            if (! $folder->implicitly_deleted) {
+                Storage::deleteDirectory($folder->uploadsPath);
+            }
         });
 
         static::restored(function (Folder $folder) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Folder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,5 +23,14 @@ class FolderFactory extends Factory
         return [
             'name' => Str::title(fake()->unique()->word()),
         ];
+    }
+
+    public function inRoot(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'folder_id' => Folder::root()->firstOrFail()->id,
+            ];
+        });
     }
 }
