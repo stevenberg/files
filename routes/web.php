@@ -26,6 +26,10 @@ Route::get('/', [FolderController::class, 'index'])
 Route::resource('folders', FolderController::class)
     ->only([
         'show',
+        'create',
+        'store',
+        'update',
+        'delete',
     ])
 ;
 

@@ -10,6 +10,12 @@
     </a>
   @endguest
   @auth
+    @can('create', App\Models\Folder::class)
+      <a href="{{ route('folders.create', ['folder_id' => $presenter->folder->id]) }}">
+        <x-icon name="folder-plus"/>
+        New folder
+      </a>
+    @endcan
     <a href="{{ route('account.show') }}">
       <x-icon name="user"/>
       <span>{{ auth()->user()->name }}</span>

@@ -15,7 +15,7 @@
       @include('header')
       @include('nav')
     </div>
-    <main class="@yield('main-class', 'stack-large')">
+    <main class="@yield('main-class', 'stack-large stack')">
       @include('alerts')
       @yield('main')
     </main>

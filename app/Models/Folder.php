@@ -92,6 +92,11 @@ class Folder extends Model
         return $ancestors;
     }
 
+    public function getIsRootAttribute(): bool
+    {
+        return is_null($this->folder_id);
+    }
+
     public function getIsRestrictedAttribute(): bool
     {
         return $this->restricted || $this->ancestors->some->restricted;

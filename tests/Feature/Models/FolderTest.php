@@ -133,6 +133,17 @@ class FolderTest extends TestCase
         });
     }
 
+    public function test_is_root(): void
+    {
+        $root = Folder::root()->first();
+
+        $this->assertTrue($root->isRoot);
+
+        $folder = Folder::factory()->inRoot()->create();
+
+        $this->assertFalse($folder->isRoot);
+    }
+
     public function test_is_restricted(): void
     {
         $parent = Folder::factory()->inRoot();
