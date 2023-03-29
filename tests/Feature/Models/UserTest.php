@@ -91,4 +91,19 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->entries->contains($entry));
     }
+
+    public function test_prune(): void
+    {
+        $pending = User::factory()->pending()->create();
+        $viewer = User::factory()->viewer()->create();
+        $admin = User::factory()->admin()->create();
+
+        $this->travel(1)->day();
+
+        Artisan::call('model:prune');
+
+        $this->assertModelMissing($pending);
+        $this->assertModelExists($viewer);
+        $this->assertModelExists($admin);
+    }
 }
