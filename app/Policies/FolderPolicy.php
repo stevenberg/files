@@ -33,7 +33,7 @@ class FolderPolicy
         }
 
         // A guest user can't view a restricted folder.
-        if (is_null($user)) {
+        if (is_null($user) || $user->role === 'pending') {
             return false;
         }
 

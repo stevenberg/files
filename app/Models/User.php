@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -53,14 +52,5 @@ class User extends Authenticatable
     public function entries(): BelongsToMany
     {
         return $this->belongsToMany(Entry::class)->withTimestamps();
-    }
-
-    /**
-     * @param  Builder<self>  $query
-     * @return Builder<self>
-     */
-    public function scopeActive(Builder $query): Builder
-    {
-        return $query->whereNot('role', 'pending');
     }
 }

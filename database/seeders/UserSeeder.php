@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
-        User::factory()->create([
+        User::factory()->viewer()->create([
             'name' => 'Test Viewer',
             'email' => 'viewer@example.com',
         ]);

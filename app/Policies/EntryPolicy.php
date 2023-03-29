@@ -34,7 +34,7 @@ class EntryPolicy
         }
 
         // A guest user can't view a restricted entry.
-        if (is_null($user)) {
+        if (is_null($user) || $user->role === 'pending') {
             return false;
         }
 
