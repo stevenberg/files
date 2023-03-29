@@ -2,6 +2,18 @@
   color: var(--color-blue);
 }
 
+.bg-blue {
+  background: var(--bg-blue);
+}
+
+.color-red {
+  color: var(--color-red);
+}
+
+.bg-red {
+  background: var(--bg-red);
+}
+
 .align-self-center {
   align-self: center !important;
 }

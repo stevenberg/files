@@ -17,6 +17,7 @@
   --color-silver: hsl(0deg 0% 87%);
   --color-white: hsl(0deg 0% 100%);
   --bg-blue: hsl(208deg 100% 43% / 20%);
+  --bg-red: hsl(3deg 100% 61% / 20%);
   --step-n-2: clamp(0.69rem, calc(0.66rem + 0.18vw), 0.8rem);
   --step-n-1: clamp(0.83rem, calc(0.78rem + 0.29vw), 1rem);
   --step-0: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
