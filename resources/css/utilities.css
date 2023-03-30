@@ -14,6 +14,10 @@
   background: var(--bg-red);
 }
 
+.button-red {
+  --color-button: var(--color-red);
+}
+
 .align-self-center {
   align-self: center !important;
 }

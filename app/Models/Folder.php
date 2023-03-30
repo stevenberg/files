@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class Folder extends Model
+final class Folder extends Model
 {
     use HasFactory, Prunable, SoftDeletes;
 

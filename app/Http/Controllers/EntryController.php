@@ -65,4 +65,37 @@ class EntryController extends Controller
             ->with('failure', 'Something went wrong with the upload.')
         ;
     }
+
+    public function destroy(Folder $folder, Entry $entry): RedirectResponse
+    {
+        if ($entry->trashed()) {
+            $this->authorize('forceDelete', $entry);
+            $entry->forceDelete();
+
+            return redirect()
+                ->route('trash.show')
+                ->with('success', "File “{$entry->name}” permanently deleted.")
+            ;
+        } else {
+            $this->authorize('delete', $entry);
+            $entry->delete();
+
+            return redirect()
+                ->route('folders.show', $entry->folder)
+                ->with('success', "Folder “{$entry->name}” deleted.")
+            ;
+        }
+    }
+
+    public function restore(Folder $folder, Entry $entry): RedirectResponse
+    {
+        $this->authorize('restore', $entry);
+
+        $entry->restore();
+
+        return redirect()
+            ->route('folders.show', $entry->folder)
+            ->with('success', "File “{$entry->name}” restored.")
+        ;
+    }
 }

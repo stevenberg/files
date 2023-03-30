@@ -10,6 +10,12 @@
     </a>
   @endguest
   @auth
+    @can('admin')
+      <a href="{{ route('trash.show') }}">
+        <x-icon name="trash"/>
+        <span>Trash</span>
+      </a>
+    @endcan
     <a href="{{ route('account.show') }}">
       <x-icon name="user"/>
       <span>{{ auth()->user()->name }}</span>

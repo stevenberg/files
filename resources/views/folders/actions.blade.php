@@ -17,5 +17,13 @@
         <input type="hidden" name="folder_id" value="{{ $presenter->folder->id }}">
       </x-form>
     @endcan
+    @can('delete', $presenter->folder)
+      <x-form :action="route('folders.destroy', $presenter->folder)" method="delete">
+        <button>
+          <x-icon name="trash"/>
+          Trash
+        </button>
+      </x-form>
+    @endcan
   </section>
 @endauth

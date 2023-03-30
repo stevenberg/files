@@ -139,3 +139,12 @@ nav button:active {
   color: var(--color-highlight);
   background: var(--color-background);
 }
+
+table {
+  inline-size: min-content;
+  white-space: nowrap;
+}
+
+td {
+  padding: var(--space-xs);
+}

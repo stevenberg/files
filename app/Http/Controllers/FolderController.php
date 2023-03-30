@@ -69,4 +69,38 @@ class FolderController extends Controller
             'presenter' => new Show($folder),
         ]);
     }
+
+    public function destroy(Folder $folder): RedirectResponse
+    {
+        if ($folder->trashed()) {
+            $this->authorize('forceDelete', $folder);
+            $folder->forceDelete();
+
+            return redirect()
+                ->route('trash.show')
+                ->with('success', "Folder “{$folder->name}” permanently deleted.")
+            ;
+        } else {
+            $this->authorize('delete', $folder);
+            $folder->delete();
+
+            $response = isset($folder->folder) && $folder->folder->isRoot
+                ? redirect()->route('home')
+                : redirect()->route('folders.show', $folder->folder);
+
+            return $response->with('success', "Folder “{$folder->name}” deleted.");
+        }
+    }
+
+    public function restore(Folder $folder): RedirectResponse
+    {
+        $this->authorize('restore', $folder);
+
+        $folder->restore();
+
+        return redirect()
+            ->route('folders.show', $folder)
+            ->with('success', "Folder “{$folder->name}” restored.")
+        ;
+    }
 }

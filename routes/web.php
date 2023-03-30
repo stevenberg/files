@@ -7,6 +7,7 @@ use App\Http\Controllers\EntryController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\ThumbnailController;
+use App\Http\Controllers\TrashController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,14 +25,27 @@ Route::get('/', [FolderController::class, 'index'])
     ->name('home')
 ;
 
+Route::post('/folders/{folder}/restore', [FolderController::class, 'restore'])
+    ->withTrashed()
+    ->name('folders.restore')
+;
+
 Route::resource('folders', FolderController::class)
     ->only([
         'show',
         'create',
         'store',
         'update',
-        'delete',
+        'destroy',
     ])
+    ->withTrashed([
+        'destroy',
+    ])
+;
+
+Route::post('/folders/{folder}/entries/{entry}/restore', [EntryController::class, 'restore'])
+    ->withTrashed()
+    ->name('folders.entries.restore')
 ;
 
 Route::resource('folders.entries', EntryController::class)
@@ -39,7 +53,10 @@ Route::resource('folders.entries', EntryController::class)
         'create',
         'store',
         'update',
-        'delete',
+        'destroy',
+    ])
+    ->withTrashed([
+        'destroy',
     ])
     ->scoped()
 ;
@@ -59,6 +76,13 @@ Route::get(
     [ThumbnailController::class, 'show'],
 )
     ->name('thumbnails.show')
+;
+
+Route::singleton('trash', TrashController::class)
+    ->only([
+        'show',
+        'update',
+    ])
 ;
 
 Route::singleton('account', AccountController::class)

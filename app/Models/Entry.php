@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
  * @property Folder $folder
  * @property Thumbnail $thumbnail
  */
-class Entry extends Model
+final class Entry extends Model
 {
     use HasFactory, Prunable, SoftDeletes;
 
