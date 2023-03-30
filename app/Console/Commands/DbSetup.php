@@ -11,7 +11,7 @@ class DbSetup extends Command
 {
     protected $signature = 'db:setup';
 
-    protected $description = 'Command description';
+    protected $description = 'Initialize the database';
 
     public function handle(): void
     {
