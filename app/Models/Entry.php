@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -21,7 +22,7 @@ use Illuminate\Support\Str;
  */
 class Entry extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, Prunable, SoftDeletes;
 
     protected $fillable = [
         'restricted',
@@ -63,6 +64,15 @@ class Entry extends Model
         return $query->onlyTrashed()->where('implicitly_deleted', true);
     }
 
+    /**
+     * @param  Builder<self>  $query
+     * @return Builder<self>
+     */
+    public function scopeNotImplicitlyDeleted(Builder $query): Builder
+    {
+        return $query->onlyTrashed()->where('implicitly_deleted', false);
+    }
+
     /** @return Collection<int, Folder> */
     public function getAncestorsAttribute(): Collection
     {
@@ -84,6 +94,12 @@ class Entry extends Model
         $this->update(['implicitly_deleted' => true]);
 
         return $this->delete();
+    }
+
+    /** @return Builder<self> */
+    public function prunable(): Builder
+    {
+        return static::notImplicitlyDeleted()->where('deleted_at', '<=', now()->subWeek());
     }
 
     protected static function booted(): void

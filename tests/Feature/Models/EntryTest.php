@@ -105,6 +105,28 @@ class EntryTest extends TestCase
         $this->assertTrue($implicitlyDeleted->contains($entries[2]));
     }
 
+    public function test_not_implicitly_deleted_scope(): void
+    {
+        $entries = Entry::factory()
+            ->count(3)
+            ->for(Folder::factory()->inRoot())
+            ->state(new Sequence(
+                ['implicitly_deleted' => false],
+                ['implicitly_deleted' => false],
+                ['implicitly_deleted' => true],
+            ))
+            ->create()
+        ;
+
+        $entries->skip(1)->each->delete();
+
+        $notImplicitlyDeleted = Entry::notImplicitlyDeleted()->get();
+
+        $this->assertFalse($notImplicitlyDeleted->contains($entries[0]));
+        $this->assertTrue($notImplicitlyDeleted->contains($entries[1]));
+        $this->assertFalse($notImplicitlyDeleted->contains($entries[2]));
+    }
+
     public function test_ancestors(): void
     {
         $parent = Folder::factory()->inRoot()->create();
@@ -211,5 +233,23 @@ class EntryTest extends TestCase
 
         $this->assertModelMissing($thumbnail);
         Storage::assertMissing($entry->path);
+    }
+
+    public function test_prune(): void
+    {
+        $deleted = Entry::factory()->for(Folder::factory()->inRoot())->create();
+        $implicitlyDeleted = Entry::factory()->for(Folder::factory()->inRoot())->create();
+        $notDeleted = Entry::factory()->for(Folder::factory()->inRoot())->create();
+
+        $deleted->delete();
+        $implicitlyDeleted->implicitlyDelete();
+
+        $this->travel(1)->week();
+
+        Artisan::call('model:prune');
+
+        $this->assertModelMissing($deleted);
+        $this->assertSoftDeleted($implicitlyDeleted);
+        $this->assertModelExists($notDeleted);
     }
 }
