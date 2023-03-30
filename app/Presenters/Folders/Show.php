@@ -6,7 +6,7 @@ namespace App\Presenters\Folders;
 
 use App\Models\Folder;
 use App\Presenters\Breadcrumb;
-use App\Presenters\EntryPresenter;
+use App\Presenters\Entry;
 use App\Presenters\Presenter;
 use Illuminate\Support\Collection;
 
@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
  * @property string $name
  * @property Collection<int, Breadcrumb> $breadcrumbs
  * @property Collection<int, Folder> $folders
- * @property Collection<int, EntryPresenter> $entries
+ * @property Collection<int, Entry> $entries
  */
 class Show extends Presenter
 {
@@ -26,7 +26,7 @@ class Show extends Presenter
         $this->entries = $this
             ->folder
             ->entries
-            ->mapInto(EntryPresenter::class)
+            ->mapInto(Entry::class)
         ;
     }
 }

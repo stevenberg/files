@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Models\Entry;
+use App\Models\Entry as EntryModel;
 use App\Models\Folder;
 use App\Models\Thumbnail;
 use Illuminate\Support\Facades\Storage;
@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Storage;
  * @property Thumbnail $thumbnail
  * @property string $icon
  */
-class EntryPresenter extends Presenter
+class Entry extends Presenter
 {
-    public function __construct(public Entry $model)
+    public function __construct(public EntryModel $model)
     {
         $this->folder = $this->model->folder;
         $this->name = $this->model->name;
