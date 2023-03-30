@@ -1,0 +1,23 @@
+.menu a:link,
+.menu a:visited {
+  cursor: pointer;
+
+  display: flex;
+  gap: var(--space-3xs);
+  align-items: center;
+
+  padding: 0;
+
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-highlight);
+  text-decoration-thickness: 2px;
+
+  background: var(--color-background);
+}
+
+.menu a:hover,
+.menu a:active {
+  color: var(--color-highlight);
+  background: var(--color-background);
+}

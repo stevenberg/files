@@ -16,7 +16,9 @@
       @include('nav')
     </div>
     @hasSection('actions')
-      @yield('actions')
+      <section class="menu cluster align-items-center">
+        @yield('actions')
+      </section>
     @endif
     <main class="@yield('main-class', 'stack-large stack')">
       @include('alerts')

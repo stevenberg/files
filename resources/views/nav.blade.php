@@ -1,4 +1,4 @@
-<nav class="cluster margin-inline-start-auto align-self-center align-items-center">
+<nav class="menu cluster margin-inline-start-auto align-self-center align-items-center">
   @guest
     {{-- <a href="{{ route('register') }}">
       <x-icon name="user-plus"/>

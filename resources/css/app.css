@@ -6,6 +6,7 @@
 @import url("components/cluster.css");
 @import url("components/stack.css");
 @import url("blocks/alert.css");
+@import url("blocks/menu.css");
 @import url("blocks/narrow-form.css");
 @import url("blocks/breadcrumbs.css");
 @import url("blocks/listing.css");
@@ -109,35 +110,8 @@ button {
   border-radius: var(--space-3xs);
 }
 
-nav a:link,
-nav a:visited,
-nav button {
-  cursor: pointer;
-
-  display: flex;
-  gap: var(--space-3xs);
-  align-items: center;
-
-  padding: 0;
-
-  color: var(--color-text);
-  text-decoration: underline;
-  text-decoration-color: var(--color-highlight);
-  text-decoration-thickness: 2px;
-
-  background: var(--color-background);
-}
-
 button:active {
   background: var(--color-button-pressed);
-}
-
-nav a:hover,
-nav a:active,
-nav button:hover,
-nav button:active {
-  color: var(--color-highlight);
-  background: var(--color-background);
 }
 
 table {
