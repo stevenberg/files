@@ -112,6 +112,8 @@ button {
 nav a:link,
 nav a:visited,
 nav button {
+  cursor: pointer;
+
   display: flex;
   gap: var(--space-3xs);
   align-items: center;
