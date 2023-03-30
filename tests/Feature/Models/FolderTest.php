@@ -117,7 +117,7 @@ class FolderTest extends TestCase
         $this->assertTrue($implicitlyDeleted->contains($folders[2]));
     }
 
-    public function test_not_implicitly_deleted_scope(): void
+    public function test_explicitly_deleted_scope(): void
     {
         $folders = Folder::factory()
             ->count(3)
@@ -132,11 +132,11 @@ class FolderTest extends TestCase
 
         $folders->skip(1)->each->delete();
 
-        $notImplicitlyDeleted = Folder::notImplicitlyDeleted()->get();
+        $explicitlyDeleted = Folder::explicitlyDeleted()->get();
 
-        $this->assertFalse($notImplicitlyDeleted->contains($folders[0]));
-        $this->assertTrue($notImplicitlyDeleted->contains($folders[1]));
-        $this->assertFalse($notImplicitlyDeleted->contains($folders[2]));
+        $this->assertFalse($explicitlyDeleted->contains($folders[0]));
+        $this->assertTrue($explicitlyDeleted->contains($folders[1]));
+        $this->assertFalse($explicitlyDeleted->contains($folders[2]));
     }
 
     public function test_ancestors(): void

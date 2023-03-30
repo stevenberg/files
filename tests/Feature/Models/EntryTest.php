@@ -105,7 +105,7 @@ class EntryTest extends TestCase
         $this->assertTrue($implicitlyDeleted->contains($entries[2]));
     }
 
-    public function test_not_implicitly_deleted_scope(): void
+    public function test_explicitly_deleted_scope(): void
     {
         $entries = Entry::factory()
             ->count(3)
@@ -120,11 +120,11 @@ class EntryTest extends TestCase
 
         $entries->skip(1)->each->delete();
 
-        $notImplicitlyDeleted = Entry::notImplicitlyDeleted()->get();
+        $explicitlyDeleted = Entry::explicitlyDeleted()->get();
 
-        $this->assertFalse($notImplicitlyDeleted->contains($entries[0]));
-        $this->assertTrue($notImplicitlyDeleted->contains($entries[1]));
-        $this->assertFalse($notImplicitlyDeleted->contains($entries[2]));
+        $this->assertFalse($explicitlyDeleted->contains($entries[0]));
+        $this->assertTrue($explicitlyDeleted->contains($entries[1]));
+        $this->assertFalse($explicitlyDeleted->contains($entries[2]));
     }
 
     public function test_ancestors(): void

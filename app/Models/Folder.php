@@ -79,7 +79,7 @@ class Folder extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeNotImplicitlyDeleted(Builder $query): Builder
+    public function scopeExplicitlyDeleted(Builder $query): Builder
     {
         return $query->onlyTrashed()->where('implicitly_deleted', false);
     }
@@ -148,7 +148,7 @@ class Folder extends Model
     /** @return Builder<self> */
     public function prunable(): Builder
     {
-        return static::notImplicitlyDeleted()->where('deleted_at', '<=', now()->subWeek());
+        return static::explicitlyDeleted()->where('deleted_at', '<=', now()->subWeek());
     }
 
     protected static function booted(): void
