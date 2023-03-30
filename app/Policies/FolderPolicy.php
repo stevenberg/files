@@ -10,19 +10,6 @@ use App\Models\User;
 class FolderPolicy
 {
     /**
-     * Perform pre-authorization checks.
-     */
-    public function before(User $user, string $ability): bool|null
-    {
-        // An admin can do everything.
-        if ($user->role === 'admin') {
-            return true;
-        }
-
-        return null;
-    }
-
-    /**
      * Determine whether the user can view the model.
      */
     public function view(?User $user, Folder $folder): bool
@@ -33,7 +20,7 @@ class FolderPolicy
         }
 
         // A guest user can't view a restricted folder.
-        if (is_null($user) || $user->role === 'pending') {
+        if (is_null($user) || $user->isPending) {
             return false;
         }
 
@@ -43,7 +30,8 @@ class FolderPolicy
             return true;
         }
 
-        return false;
+        // An admin user can view everything.
+        return $user->isAdmin;
     }
 
     /**
@@ -51,7 +39,7 @@ class FolderPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->isAdmin;
     }
 
     /**
@@ -59,7 +47,7 @@ class FolderPolicy
      */
     public function update(User $user, Folder $folder): bool
     {
-        return false;
+        return $user->isAdmin;
     }
 
     /**
@@ -67,7 +55,7 @@ class FolderPolicy
      */
     public function delete(User $user, Folder $folder): bool
     {
-        return false;
+        return $user->isAdmin && ! $folder->isRoot;
     }
 
     /**
@@ -75,7 +63,7 @@ class FolderPolicy
      */
     public function restore(User $user, Folder $folder): bool
     {
-        return false;
+        return $user->isAdmin && $folder->trashed();
     }
 
     /**
@@ -83,6 +71,6 @@ class FolderPolicy
      */
     public function forceDelete(User $user, Folder $folder): bool
     {
-        return false;
+        return $user->isAdmin && $folder->trashed();
     }
 }

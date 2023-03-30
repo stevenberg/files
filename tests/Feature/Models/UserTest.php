@@ -92,6 +92,39 @@ class UserTest extends TestCase
         $this->assertTrue($user->entries->contains($entry));
     }
 
+    public function test_is_pending(): void
+    {
+        $pending = User::factory()->pending()->create();
+        $viewer = User::factory()->viewer()->create();
+        $admin = User::factory()->admin()->create();
+
+        $this->assertTrue($pending->isPending);
+        $this->assertFalse($viewer->isPending);
+        $this->assertFalse($admin->isPending);
+    }
+
+    public function test_is_viewer(): void
+    {
+        $pending = User::factory()->pending()->create();
+        $viewer = User::factory()->viewer()->create();
+        $admin = User::factory()->admin()->create();
+
+        $this->assertFalse($pending->isViewer);
+        $this->assertTrue($viewer->isViewer);
+        $this->assertFalse($admin->isViewer);
+    }
+
+    public function test_is_admin(): void
+    {
+        $pending = User::factory()->pending()->create();
+        $viewer = User::factory()->viewer()->create();
+        $admin = User::factory()->admin()->create();
+
+        $this->assertFalse($pending->isAdmin);
+        $this->assertFalse($viewer->isAdmin);
+        $this->assertTrue($admin->isAdmin);
+    }
+
     public function test_prune(): void
     {
         $pending = User::factory()->pending()->create();

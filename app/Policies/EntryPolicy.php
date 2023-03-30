@@ -11,19 +11,6 @@ use App\Models\User;
 class EntryPolicy
 {
     /**
-     * Perform pre-authorization checks.
-     */
-    public function before(User $user, string $ability): bool|null
-    {
-        // An admin can do everything.
-        if ($ability !== 'create' && $user->role === 'admin') {
-            return true;
-        }
-
-        return null;
-    }
-
-    /**
      * Determine whether the user can view the model.
      */
     public function view(?User $user, Entry $entry): bool
@@ -34,7 +21,7 @@ class EntryPolicy
         }
 
         // A guest user can't view a restricted entry.
-        if (is_null($user) || $user->role === 'pending') {
+        if (is_null($user) || $user->isPending) {
             return false;
         }
 
@@ -44,7 +31,8 @@ class EntryPolicy
             return true;
         }
 
-        return false;
+        // An admin user can view everything.
+        return $user->isAdmin;
     }
 
     /**
@@ -52,7 +40,7 @@ class EntryPolicy
      */
     public function create(User $user, Folder $folder): bool
     {
-        return $user->role === 'admin' && ! $folder->isRoot;
+        return $user->isAdmin && ! $folder->isRoot;
     }
 
     /**
@@ -60,7 +48,7 @@ class EntryPolicy
      */
     public function update(User $user, Entry $entry): bool
     {
-        return false;
+        return $user->isAdmin;
     }
 
     /**
@@ -68,7 +56,7 @@ class EntryPolicy
      */
     public function delete(User $user, Entry $entry): bool
     {
-        return false;
+        return $user->isAdmin;
     }
 
     /**
@@ -76,7 +64,7 @@ class EntryPolicy
      */
     public function restore(User $user, Entry $entry): bool
     {
-        return false;
+        return $user->isAdmin && $entry->trashed();
     }
 
     /**
@@ -84,6 +72,6 @@ class EntryPolicy
      */
     public function forceDelete(User $user, Entry $entry): bool
     {
-        return false;
+        return $user->isAdmin && $entry->trashed();
     }
 }

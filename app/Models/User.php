@@ -56,6 +56,21 @@ class User extends Authenticatable
         return $this->belongsToMany(Entry::class)->withTimestamps();
     }
 
+    public function getIsPendingAttribute(): bool
+    {
+        return $this->role === 'pending';
+    }
+
+    public function getIsViewerAttribute(): bool
+    {
+        return $this->role === 'viewer';
+    }
+
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->role === 'admin';
+    }
+
     /**
      * @return Builder<self>
      */
