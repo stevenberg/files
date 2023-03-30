@@ -1,7 +1,7 @@
 @isset($presenter)
-  @if ($presenter->breadcrumbs()->isNotEmpty())
+  @isset($presenter->breadcrumbs)
     <ul class="cluster">
-      @foreach ($presenter->breadcrumbs() as $breadcrumb)
+      @foreach ($presenter->breadcrumbs as $breadcrumb)
         <li class="cluster">
           <a href="{{ $breadcrumb->url }}">
             {{ $breadcrumb->name }}

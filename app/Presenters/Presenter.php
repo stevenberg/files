@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Models\Folder;
 use Illuminate\Support\Collection;
 
 abstract class Presenter
 {
     /** @var array<string, mixed> */
     private $properties = [];
-
-    /** @var Collection<int, Breadcrumb> */
-    private Collection $breadcrumbs;
 
     public function __set(string $name, mixed $value): void
     {
@@ -34,21 +32,15 @@ abstract class Presenter
         unset($this->properties[$name]);
     }
 
-    /** @return Collection<int, Breadcrumb> */
-    public function breadcrumbs(): Collection
+    /**
+     * @param  Collection<int, Folder>  $ancestors
+     * @return Collection<int, Breadcrumb>
+     */
+    public function breadcrumbs(Collection $ancestors = new Collection): Collection
     {
-        if (! isset($this->ancestors)) {
-            return new Collection;
-        }
-
-        if (! isset($this->breadcrumbs)) {
-            $this->breadcrumbs = $this
-                ->ancestors
-                ->map(fn ($f) => new Breadcrumb($f->name, route('folders.show', $f)))
-                ->prepend(new Breadcrumb(config('app.name'), route('home')))
-            ;
-        }
-
-        return $this->breadcrumbs;
+        return $ancestors
+            ->map(fn ($f) => new Breadcrumb($f->name, route('folders.show', $f)))
+            ->prepend(new Breadcrumb(config('app.name'), route('home')))
+        ;
     }
 }

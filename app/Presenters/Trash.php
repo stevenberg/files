@@ -9,14 +9,15 @@ use App\Models\Folder;
 use Illuminate\Support\Collection;
 
 /**
- * @property Collection<int, mixed> $ancestors
+ * @property Collection<int, Breadcrumb> $breadcrumbs
  * @property Collection<int, Item> $items
  */
 class Trash extends Presenter
 {
     public function __construct()
     {
-        $this->ancestors = new Collection;
+        $this->breadcrumbs = $this->breadcrumbs();
+
         $folders = Folder::explicitlyDeleted()->get();
         $entries = Entry::explicitlyDeleted()->get();
 
