@@ -8,6 +8,7 @@ use App\Jobs\ProcessUpload;
 use App\Models\Entry;
 use App\Models\Folder;
 use App\Presenters\Entries\Create;
+use App\Presenters\Entries\Show;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -64,6 +65,15 @@ class EntryController extends Controller
             ->route('folders.show', $folder)
             ->with('failure', 'Something went wrong with the upload.')
         ;
+    }
+
+    public function show(Folder $folder, Entry $entry): View
+    {
+        $this->authorize('admin');
+
+        return view('entries.show', [
+            'presenter' => new Show($entry),
+        ]);
     }
 
     public function destroy(Folder $folder, Entry $entry): RedirectResponse

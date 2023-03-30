@@ -32,9 +32,9 @@ Route::post('/folders/{folder}/restore', [FolderController::class, 'restore'])
 
 Route::resource('folders', FolderController::class)
     ->only([
-        'show',
         'create',
         'store',
+        'show',
         'update',
         'destroy',
     ])
@@ -52,6 +52,7 @@ Route::resource('folders.entries', EntryController::class)
     ->only([
         'create',
         'store',
+        'show',
         'update',
         'destroy',
     ])

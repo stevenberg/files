@@ -1,0 +1,14 @@
+.entry {
+  inline-size: 100%;
+}
+
+@media (min-width: 525px) {
+  .entry {
+    inline-size: var(--space-6xl);
+  }
+}
+
+.entry img {
+  inline-size: 100%;
+  block-size: auto;
+}

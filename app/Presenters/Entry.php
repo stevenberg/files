@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
  * @property string $name
  * @property Thumbnail $thumbnail
  * @property string $icon
+ * @property string $route
+ * @property bool $newTab
  */
 class Entry extends Presenter
 {
@@ -35,5 +37,11 @@ class Entry extends Presenter
             'text/plain' => 'file-lines',
             default => 'file',
         };
+
+        $this->route = auth()->user()?->isAdmin
+            ? 'folders.entries.show'
+            : 'folders.files.show';
+
+        $this->newTab = ! auth()->user()?->isAdmin;
     }
 }

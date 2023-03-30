@@ -1,6 +1,6 @@
 @can('view', $entry->model)
   <li>
-    <a href="{{ route('folders.files.show', ['folder' => $entry->folder, 'entry' => $entry->model])}}" target="_blank">
+    <x-link :href="route($entry->route, ['folder' => $entry->folder, 'entry' => $entry->model])" :tab="$entry->newTab">
       <figure class="center stack">
         @if ($entry->thumbnail->exists)
           <x-thumbnail :thumbnail="$entry->thumbnail"/>
@@ -11,6 +11,6 @@
           {{ $entry->name }}
         </figcaption>
       </figure>
-    </a>
+    </x-link>
   </li>
 @endcan
