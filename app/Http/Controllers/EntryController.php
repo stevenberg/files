@@ -52,11 +52,11 @@ class EntryController extends Controller
                 ;
             }
 
-            ProcessUpload::dispatchSync($folder, $path, $request->input('name'));
+            ProcessUpload::dispatchSync($folder, $path, $name);
 
             return redirect()
                 ->route('folders.show', $folder)
-                ->with('success', 'File uploaded.')
+                ->with('success', "File “{$name}” uploaded.")
             ;
         }
 

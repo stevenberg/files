@@ -57,7 +57,7 @@ class FolderController extends Controller
 
         return redirect()
             ->route('folders.show', $folder)
-            ->with('success', 'Folder created.')
+            ->with('success', "Folder “{$folder->name}” created.")
         ;
     }
 
