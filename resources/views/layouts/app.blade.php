@@ -15,6 +15,9 @@
       @include('header')
       @include('nav')
     </div>
+    @hasSection('actions')
+      @yield('actions')
+    @endif
     <main class="@yield('main-class', 'stack-large stack')">
       @include('alerts')
       @yield('main')

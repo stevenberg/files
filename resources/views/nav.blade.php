@@ -10,20 +10,6 @@
     </a>
   @endguest
   @auth
-    @if (isset($presenter) && isset($presenter->folder))
-      @can('create', [App\Models\Entry::class, $presenter->folder])
-        <a href="{{ route('folders.entries.create', $presenter->folder) }}">
-          <x-icon name="file-plus"/>
-          New file
-        </a>
-      @endcan
-      @can('create', App\Models\Folder::class)
-        <a href="{{ route('folders.create', ['folder_id' => $presenter->folder->id]) }}">
-          <x-icon name="folder-plus"/>
-          New folder
-        </a>
-      @endcan
-    @endif
     <a href="{{ route('account.show') }}">
       <x-icon name="user"/>
       <span>{{ auth()->user()->name }}</span>
