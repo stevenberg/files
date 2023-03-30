@@ -16,7 +16,9 @@
 @endphp
 <form {{ $attributes->merge($additionalAttributes) }}>
   {{ $slot }}
-  @csrf
+  @if ($method === 'post')
+    @csrf
+  @endif
   @if ($realMethod !== $method)
     @method($realMethod)
   @endif
