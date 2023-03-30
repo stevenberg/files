@@ -183,8 +183,8 @@ final class Folder extends Model
         });
 
         static::restored(function (Folder $folder) {
-            $folder->folders()->implicitlyDeleted()->restore();
-            $folder->entries()->implicitlyDeleted()->restore();
+            $folder->folders()->implicitlyDeleted()->get()->each->restore();
+            $folder->entries()->implicitlyDeleted()->get()->each->restore();
             Storage::makeDirectory($folder->uploadsPath);
         });
 

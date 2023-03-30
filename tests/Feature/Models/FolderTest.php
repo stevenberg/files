@@ -6,6 +6,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\Entry;
 use App\Models\Folder;
+use App\Models\Thumbnail;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Model;
@@ -303,6 +304,7 @@ class FolderTest extends TestCase
             'implicitly_deleted' => false,
         ]);
         $deletedEntry->delete();
+        $thumbnail = Thumbnail::factory()->for($entry)->create();
 
         $parent->delete();
 
@@ -311,6 +313,7 @@ class FolderTest extends TestCase
         $this->assertSoftDeleted($deletedChild);
         $this->assertSoftDeleted($entry);
         $this->assertSoftDeleted($deletedEntry);
+        $this->assertSoftDeleted($thumbnail);
         Storage::assertMissing('uploads/test-folder');
         Storage::assertExists('files/test-folder');
         Storage::assertExists('thumbnails/test-folder');
@@ -322,6 +325,7 @@ class FolderTest extends TestCase
         $this->assertSoftDeleted($deletedChild);
         $this->assertNotSoftDeleted($entry);
         $this->assertSoftDeleted($deletedEntry);
+        $this->assertNotSoftDeleted($thumbnail);
         Storage::assertExists('uploads/test-folder');
         Storage::assertExists('files/test-folder');
         Storage::assertExists('thumbnails/test-folder');
