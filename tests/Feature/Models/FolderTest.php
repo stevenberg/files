@@ -20,7 +20,6 @@ class FolderTest extends TestCase
     {
         parent::setUp();
         Storage::fake();
-        Storage::fake('public');
         Artisan::call('db:setup');
     }
 

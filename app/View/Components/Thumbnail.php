@@ -8,7 +8,6 @@ use App\Models\Thumbnail as Model;
 use App\Values\Thumbnails\Shape;
 use App\Values\Thumbnails\Size;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Component;
 
 class Thumbnail extends Component
@@ -42,7 +41,6 @@ class Thumbnail extends Component
                     'shape' => $shape,
                     'size' => $size,
                 ]);
-                // $url = Storage::disk('public')->url($this->thumbnail->path($shape, $size));
 
                 return "{$url} {$size->value}w";
             })

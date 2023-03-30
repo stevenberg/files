@@ -19,7 +19,6 @@ class ProcessUploadTest extends TestCase
         parent::setUp();
         Queue::fake();
         Storage::fake();
-        Storage::fake('public');
         Artisan::call('db:setup');
     }
 
