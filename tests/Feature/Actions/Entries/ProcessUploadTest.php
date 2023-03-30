@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs;
+namespace Tests\Feature\Actions\Entries;
 
+use App\Actions\Entries\ProcessUpload;
 use App\Jobs\CreateThumbnail;
-use App\Jobs\ProcessUpload;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
@@ -31,8 +31,8 @@ class ProcessUploadTest extends TestCase
 
         Storage::put('uploads/test/test.txt', 'test');
 
-        $job = new ProcessUpload($folder, 'uploads/test/test.txt', 'Test File');
-        $job->handle();
+        $action = new ProcessUpload($folder, 'uploads/test/test.txt', 'Test File');
+        $action->run();
 
         $entry = $folder->entries->first();
 

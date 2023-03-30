@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ProcessUpload;
+use App\Actions\Entries\ProcessUpload;
 use App\Models\Entry;
 use App\Models\Folder;
 use App\Presenters\Entries\Create;
@@ -53,10 +53,13 @@ class EntryController extends Controller
                 ;
             }
 
-            ProcessUpload::dispatchSync($folder, $path, $name);
+            $entry = (new ProcessUpload($folder, $path, $name))->run();
 
             return redirect()
-                ->route('folders.show', $folder)
+                ->route('folders.entries.show', [
+                    'folder' => $folder,
+                    'entry' => $entry,
+                ])
                 ->with('success', "File “{$name}” uploaded.")
             ;
         }

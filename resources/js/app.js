@@ -1,5 +1,7 @@
 import "~fortawesome/sprites/duotone.svg";
 
+import.meta.glob(["../images/**"]);
+
 import { Application } from "@hotwired/stimulus";
 import { registerControllers } from "stimulus-vite-helpers";
 const application = Application.start();

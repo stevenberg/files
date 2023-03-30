@@ -2,21 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs;
+namespace App\Actions\Entries;
 
+use App\Jobs\CreateThumbnail;
+use App\Models\Entry;
 use App\Models\Folder;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\File;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class ProcessUpload implements ShouldQueue
+class ProcessUpload
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     public function __construct(
         public Folder $folder,
         public string $path,
@@ -24,7 +19,7 @@ class ProcessUpload implements ShouldQueue
         ) {
     }
 
-    public function handle(): void
+    public function run(): Entry
     {
         $file = new File(Storage::path($this->path));
         $path = Storage::putFile($this->folder->filesPath, $file);
@@ -37,5 +32,7 @@ class ProcessUpload implements ShouldQueue
         Storage::delete($this->path);
 
         CreateThumbnail::dispatch($entry);
+
+        return $entry;
     }
 }
