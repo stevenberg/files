@@ -23,11 +23,15 @@ class CreateImageThumbnailTest extends TestCase
 
     public function test_jpg(): void
     {
-        copy(base_path('tests/fixtures/test.jpg'), Storage::path('test.jpg'));
-
-        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
-            'path' => 'test.jpg',
+        $folder = Folder::factory()->inRoot()->create([
+            'name' => 'Test',
         ]);
+        $entry = Entry::factory()->for($folder)->create([
+            'name' => 'Test',
+            'path' => 'files/test/test.jpg',
+        ]);
+
+        copy(base_path('tests/fixtures/test.jpg'), Storage::path('files/test/test.jpg'));
 
         $job = new CreateImageThumbnail($entry);
         $job->handle();
@@ -42,11 +46,15 @@ class CreateImageThumbnailTest extends TestCase
 
     public function test_png(): void
     {
-        copy(base_path('tests/fixtures/test.png'), Storage::path('test.png'));
-
-        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
-            'path' => 'test.png',
+        $folder = Folder::factory()->inRoot()->create([
+            'name' => 'Test',
         ]);
+        $entry = Entry::factory()->for($folder)->create([
+            'name' => 'Test',
+            'path' => 'files/test/test.png',
+        ]);
+
+        copy(base_path('tests/fixtures/test.png'), Storage::path('files/test/test.png'));
 
         $job = new CreateImageThumbnail($entry);
         $job->handle();

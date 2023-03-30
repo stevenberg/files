@@ -161,6 +161,18 @@ class EntryTest extends TestCase
         $this->assertTrue($entry->isRestricted);
     }
 
+    public function test_thumbnails_path(): void
+    {
+        $folder = Folder::factory()->inRoot()->create([
+            'name' => 'Test Folder',
+        ]);
+        $entry = Entry::factory()->for($folder)->create([
+            'name' => 'Test Entry',
+        ]);
+
+        $this->assertSame('thumbnails/test-folder/test-entry', $entry->thumbnailsPath);
+    }
+
     public function test_implicitly_delete(): void
     {
         $entry = Entry::factory()->for(Folder::factory()->inRoot())->create();
@@ -206,6 +218,18 @@ class EntryTest extends TestCase
         $this->assertSame('test-entry', $entry->url_key);
     }
 
+    public function test_makes_directory_on_created(): void
+    {
+        $folder = Folder::factory()->inRoot()->create([
+            'name' => 'Test Folder',
+        ]);
+        $entry = Entry::factory()->for($folder)->create([
+            'name' => 'Test Entry',
+        ]);
+
+        Storage::assertExists('thumbnails/test-folder/test-entry');
+    }
+
     public function test_soft_deletion(): void
     {
         $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
@@ -233,6 +257,7 @@ class EntryTest extends TestCase
 
         $this->assertModelMissing($thumbnail);
         Storage::assertMissing($entry->path);
+        Storage::assertMissing($entry->thumbnailsPath);
     }
 
     public function test_prune(): void

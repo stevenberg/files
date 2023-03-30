@@ -27,7 +27,7 @@ class CreateImageThumbnail implements ShouldQueue
     public function __construct(public Entry $entry)
     {
         $name = Str::beforeLast(basename($this->entry->path), '.');
-        $this->pathTemplate = "{$this->entry->folder->thumbnailsPath}/{$name}_[SHAPE]_[SIZE].png";
+        $this->pathTemplate = "{$this->entry->thumbnailsPath}/{$name}_[SHAPE]_[SIZE].png";
     }
 
     public function handle(): void

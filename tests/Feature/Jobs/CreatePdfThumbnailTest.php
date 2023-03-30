@@ -23,11 +23,15 @@ class CreatePdfThumbnailTest extends TestCase
 
     public function test_job(): void
     {
-        copy(base_path('tests/fixtures/test.pdf'), Storage::path('test.pdf'));
-
-        $entry = Entry::factory()->for(Folder::factory()->inRoot())->create([
-            'path' => 'test.pdf',
+        $folder = Folder::factory()->inRoot()->create([
+            'name' => 'Test',
         ]);
+        $entry = Entry::factory()->for($folder)->create([
+            'name' => 'Test',
+            'path' => 'files/test/test.pdf',
+        ]);
+
+        copy(base_path('tests/fixtures/test.pdf'), Storage::path('files/test/test.pdf'));
 
         $job = new CreatePdfThumbnail($entry);
         $job->handle();

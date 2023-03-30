@@ -84,6 +84,11 @@ final class Entry extends Model
         return $this->restricted || $this->ancestors->some->restricted;
     }
 
+    public function getThumbnailsPathAttribute(): string
+    {
+        return "{$this->folder->thumbnailsPath}/{$this->url_key}";
+    }
+
     public function getRouteKeyName(): string
     {
         return 'url_key';
@@ -114,6 +119,10 @@ final class Entry extends Model
             }
         });
 
+        static::created(function (Entry $entry) {
+            Storage::makeDirectory($entry->thumbnailsPath);
+        });
+
         static::deleted(function (Entry $entry) {
             optional($entry->thumbnail)->delete();
         });
@@ -124,6 +133,7 @@ final class Entry extends Model
 
         static::forceDeleted(function (Entry $entry) {
             Storage::delete($entry->path);
+            Storage::deleteDirectory($entry->thumbnailsPath);
         });
     }
 }
