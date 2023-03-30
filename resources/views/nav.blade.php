@@ -1,9 +1,9 @@
 <nav class="cluster margin-inline-start-auto align-self-center align-items-center">
   @guest
-    <a href="{{ route('register') }}">
+    {{-- <a href="{{ route('register') }}">
       <x-icon name="user-plus"/>
       <span>Register</span>
-    </a>
+    </a> --}}
     <a href="{{ route('login') }}">
       <x-icon name="right-to-bracket"/>
       <span>Sign in</span>
