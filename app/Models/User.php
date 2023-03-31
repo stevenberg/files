@@ -57,6 +57,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Entry::class)->withTimestamps();
     }
 
+    /**
+     * @param  Builder<self>  $query
+     * @return Builder<self>
+     */
+    public function scopeAdmin(Builder $query): Builder
+    {
+        return $query->where('role', 'admin');
+    }
+
     public function getIsPendingAttribute(): bool
     {
         return $this->role === 'pending';

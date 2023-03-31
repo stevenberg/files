@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Notifications\NewUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -33,10 +34,14 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        User::admin()->get()->each->notify(new NewUser($user));
+
+        return $user;
     }
 }

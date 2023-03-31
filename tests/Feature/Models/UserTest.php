@@ -91,6 +91,19 @@ class UserTest extends TestCase
         $this->assertTrue($user->entries->contains($entry));
     }
 
+    public function test_admin_scope(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $viewer = User::factory()->viewer()->create();
+        $pending = User::factory()->pending()->create();
+
+        $users = User::admin()->get();
+
+        $this->assertTrue($users->contains($admin));
+        $this->assertFalse($users->contains($viewer));
+        $this->assertFalse($users->contains($pending));
+    }
+
     public function test_is_pending(): void
     {
         $pending = User::factory()->pending()->create();
