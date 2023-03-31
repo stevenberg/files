@@ -9,7 +9,9 @@
     "laravel/telescope": "^4.14",
     "laravel/tinker": "^2.8",
     "spatie/image": "^2.2",
-    "spatie/pdf-to-image": "^2.2"
+    "spatie/pdf-to-image": "^2.2",
+    "symfony/http-client": "^6.2",
+    "symfony/mailgun-mailer": "^6.2"
   },
   "require-dev": {
     "fakerphp/faker": "^1.21",

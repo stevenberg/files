@@ -18,6 +18,9 @@ processes = []
   LOG_CHANNEL = "stack"
   LOG_LEVEL = "info"
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  MAIL_MAILER = "mailgun"
+  MAIL_FROM_ADDRESS = "steven@stevenberg.net"
+  MAILGUN_DOMAIN = "mg.stevenberg.net"
 
 [mounts]
     source = "storage_vol"
