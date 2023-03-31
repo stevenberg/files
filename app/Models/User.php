@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Prunable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, Prunable, SoftDeletes, TwoFactorAuthenticatable;
 
     /**
      * @var array<int, string>
