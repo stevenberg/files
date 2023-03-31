@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function index(): View
     {
-        $this->authorize('admin');
+        $this->authorize('viewAny', User::class);
 
         return view('users.index', [
             'presenter' => new Index,
@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user): RedirectResponse
     {
-        $this->authorize('admin');
+        $this->authorize('update', $user);
 
         $user->update(['role' => 'viewer']);
 
@@ -40,7 +40,7 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
-        $this->authorize('admin');
+        $this->authorize('delete', $user);
 
         $user->delete();
 

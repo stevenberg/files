@@ -25,12 +25,14 @@
         </td>
         <td>
           <div class="cluster inline-size-max-content">
-            <x-form :action="route('users.destroy', $user->model)" method="delete">
-              <button>
-                <x-icon name="trash"/>
-                Trash
-              </button>
-            </x-form>
+            @can('delete', $user->model)
+              <x-form :action="route('users.destroy', $user->model)" method="delete">
+                <button>
+                  <x-icon name="trash"/>
+                  Trash
+                </button>
+              </x-form>
+            @endcan
             @if ($user->isPending)
               <x-form :action="route('users.update', $user->model)" method="put">
                 <button>
