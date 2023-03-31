@@ -8,6 +8,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\ThumbnailController;
 use App\Http\Controllers\TrashController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,5 +90,13 @@ Route::singleton('trash', TrashController::class)
 Route::singleton('account', AccountController::class)
     ->only([
         'show',
+    ])
+;
+
+Route::resource('users', UserController::class)
+    ->only([
+        'index',
+        'update',
+        'destroy',
     ])
 ;

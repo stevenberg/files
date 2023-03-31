@@ -1,9 +1,9 @@
 <nav class="menu cluster margin-inline-start-auto align-self-center align-items-center">
   @guest
-    {{-- <a href="{{ route('register') }}">
+    <a href="{{ route('register') }}">
       <x-icon name="user-plus"/>
       <span>Register</span>
-    </a> --}}
+    </a>
     <a href="{{ route('login') }}">
       <x-icon name="right-to-bracket"/>
       <span>Sign in</span>
@@ -16,6 +16,10 @@
         <span>Trash</span>
       </a>
     @endcan
+    <a href="{{ route('users.index') }}">
+      <x-icon name="users"/>
+      Users
+    </a>
     <a href="{{ route('account.show') }}">
       <x-icon name="user"/>
       <span>{{ auth()->user()->name }}</span>

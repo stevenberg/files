@@ -121,6 +121,11 @@ table {
   white-space: nowrap;
 }
 
+th {
+  text-align: left;
+}
+
+th,
 td {
-  padding: var(--space-xs);
+  padding: var(--space-2xs) var(--space-s);
 }

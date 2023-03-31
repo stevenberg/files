@@ -29,3 +29,7 @@
 .margin-inline-start-auto {
   margin-inline-start: auto;
 }
+
+.inline-size-max-content {
+  inline-size: max-content;
+}
