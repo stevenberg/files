@@ -12,7 +12,7 @@
 @endsection
 
 @section('main')
-  <table>
+  <table class="trash">
     @foreach ($presenter->items as $item)
       <tr>
         <td>
