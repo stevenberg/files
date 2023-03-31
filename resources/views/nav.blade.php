@@ -15,11 +15,11 @@
         <x-icon name="trash"/>
         <span>Trash</span>
       </a>
+      <a href="{{ route('users.index') }}">
+        <x-icon name="users"/>
+        Users
+      </a>
     @endcan
-    <a href="{{ route('users.index') }}">
-      <x-icon name="users"/>
-      Users
-    </a>
     <a href="{{ route('account.show') }}">
       <x-icon name="user"/>
       <span>{{ auth()->user()->name }}</span>
