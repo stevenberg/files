@@ -104,6 +104,19 @@ class UserTest extends TestCase
         $this->assertFalse($users->contains($pending));
     }
 
+    public function test_viewer_scope(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $viewer = User::factory()->viewer()->create();
+        $pending = User::factory()->pending()->create();
+
+        $users = User::viewer()->get();
+
+        $this->assertFalse($users->contains($admin));
+        $this->assertTrue($users->contains($viewer));
+        $this->assertFalse($users->contains($pending));
+    }
+
     public function test_is_pending(): void
     {
         $pending = User::factory()->pending()->create();

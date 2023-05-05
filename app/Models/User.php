@@ -66,6 +66,15 @@ class User extends Authenticatable
         return $query->where('role', 'admin');
     }
 
+    /**
+     * @param  Builder<self>  $query
+     * @return Builder<self>
+     */
+    public function scopeViewer(Builder $query): Builder
+    {
+        return $query->where('role', 'viewer');
+    }
+
     public function getIsPendingAttribute(): bool
     {
         return $this->role === 'pending';

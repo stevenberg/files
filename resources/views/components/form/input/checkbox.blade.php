@@ -2,8 +2,14 @@
   'name',
   'model' => null,
 ])
-@props(['checked'])
+@props([
+  'checked' => false,
+])
 @php
+  if (!is_bool($checked)) {
+    $checked = $checked === '1' ? true : false;
+  }
+
   $modelValue = null;
   if (is_bool(optional($model)->$name)) {
     $modeValue = optional($model)->$name ? '1' : '0';

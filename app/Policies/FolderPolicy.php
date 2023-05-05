@@ -47,7 +47,7 @@ class FolderPolicy
      */
     public function update(User $user, Folder $folder): bool
     {
-        return $user->isAdmin;
+        return $user->isAdmin && ! $folder->isRoot;
     }
 
     /**

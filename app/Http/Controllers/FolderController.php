@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Folder;
 use App\Presenters\Folders\Create;
+use App\Presenters\Folders\Edit;
 use App\Presenters\Folders\Index;
 use App\Presenters\Folders\Show;
 use Illuminate\Http\RedirectResponse;
@@ -68,6 +69,46 @@ class FolderController extends Controller
         return view('folders.show', [
             'presenter' => new Show($folder),
         ]);
+    }
+
+    public function edit(Folder $folder): View
+    {
+        $this->authorize('update', $folder);
+
+        return view('folders.edit', [
+            'presenter' => new Edit($folder),
+        ]);
+    }
+
+    public function update(Request $request, Folder $folder): RedirectResponse
+    {
+        $request->validate([
+            'name' => [
+                'required',
+                Rule::unique('folders')->where('folder_id', $folder->folder_id)->ignore($folder->id),
+            ],
+            'restricted' => 'required|in:0,1',
+            'users.*.id' => 'required|exists:users,id',
+            'users.*.selected' => 'required|in:0,1',
+        ]);
+
+        $folder->update([
+            'name' => $request->name,
+            'restricted' => (bool) $request->restricted,
+        ]);
+
+        /** @var array<int, array{id: string, selected: '0' | '1'}> */
+        $users = $request->users;
+        $userIds = collect($users)
+            ->filter(fn ($u) => $u['selected'] === '1')
+            ->map(fn ($u) => $u['id'])
+        ;
+        $folder->users()->sync($userIds);
+
+        return redirect()
+            ->route('folders.show', $folder)
+            ->with('success', "Folder “{$folder->name}” updated.")
+        ;
     }
 
     public function destroy(Folder $folder): RedirectResponse

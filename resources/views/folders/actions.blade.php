@@ -11,6 +11,12 @@
       New folder
     </a>
   @endcan
+  @can('update', $presenter->folder)
+    <a href="{{ route('folders.edit', $presenter->folder) }}">
+      <x-icon name="pen-to-square"/>
+      Edit
+    </a>
+  @endcan
   @can('delete', $presenter->folder)
     <x-form :action="route('folders.destroy', $presenter->folder)" method="delete">
       <button>

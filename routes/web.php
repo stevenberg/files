@@ -36,6 +36,7 @@ Route::resource('folders', FolderController::class)
         'create',
         'store',
         'show',
+        'edit',
         'update',
         'destroy',
     ])
