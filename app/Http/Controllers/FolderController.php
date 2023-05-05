@@ -45,6 +45,9 @@ class FolderController extends Controller
                 'required',
                 Rule::unique('folders')->where('folder_id', $request->folder_id),
             ],
+            'restricted' => 'required|in:0,1',
+            'users.*.id' => 'required|exists:users,id',
+            'users.*.selected' => 'required|in:0,1',
             'folder_id' => 'required|exists:folders,id',
         ]);
 
@@ -53,8 +56,17 @@ class FolderController extends Controller
             ->folders()
             ->create([
                 'name' => $request->name,
+                'restricted' => (bool) $request->restricted,
             ])
         ;
+
+        /** @var array<int, array{id: string, selected: '0' | '1'}> */
+        $users = $request->users;
+        $userIds = collect($users)
+            ->filter(fn ($u) => $u['selected'] === '1')
+            ->map(fn ($u) => $u['id'])
+        ;
+        $folder->users()->sync($userIds);
 
         return redirect()
             ->route('folders.show', $folder)

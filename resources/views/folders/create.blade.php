@@ -9,6 +9,26 @@
         <x-form.input.label/>
         <x-form.input.text/>
       </x-form.input>
+      <x-form.input name="restricted">
+        <x-form.input.label>
+          <x-form.input.checkbox/>
+          Restricted
+        </x-form.input.label>
+      </x-form.input>
+      <fieldset class="stack">
+        <legend  class="stack-small">
+          Viewers
+        </legend>
+        @foreach ($presenter->users as $index => $user)
+          <input type="hidden" name="users[{{ $index }}][id]" value="{{ $user->id }}"/>
+          <x-form.input name="users[{{ $index }}][selected]" class="stack-small">
+            <x-form.input.label>
+              <x-form.input.checkbox :checked='old("users.{$index}.selected")'/>
+              {{ $user->name }}
+            </x-form.input.label>
+          </x-form.input>
+        @endforeach
+      </fieldset>
       <button>
         Add folder
       </button>
